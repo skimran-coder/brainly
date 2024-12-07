@@ -20,6 +20,4 @@ contentRouter.patch("/:id", userAuth, patchContent);
 
 contentRouter.delete("/:id", userAuth, deleteContent);
 
-contentRouter.get("/search", (req, res) => {});
-
 export default contentRouter;
