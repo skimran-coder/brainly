@@ -8,7 +8,8 @@ interface buttonProps {
 }
 
 const Button = ({ type, name, size, beforeIcon }: buttonProps) => {
-  const defaultStyles = "rounded-md flex gap-2 justify-center items-center";
+  const defaultStyles =
+    "rounded-md flex gap-2 justify-center items-center hover:bg-opacity-80 transition-all";
 
   const styleSize = {
     sm: "px-2 py-1 text-sm",
@@ -17,7 +18,7 @@ const Button = ({ type, name, size, beforeIcon }: buttonProps) => {
   };
 
   const styleType = {
-    primary: "bg-bg-primaryBtn text-text-primaryBtn",
+    primary: "bg-bg-primaryBtn text-white",
     secondary: "bg-bg-secondaryBtn text-text-secondaryBtn",
   };
 
@@ -25,9 +26,9 @@ const Button = ({ type, name, size, beforeIcon }: buttonProps) => {
     <button
       className={`${styleType[type || "primary"]} ${
         styleSize[size || "md"]
-      } ${defaultStyles} `}
+      } ${defaultStyles}`}
     >
-      {beforeIcon}
+      {beforeIcon && beforeIcon}
       {name}
     </button>
   );

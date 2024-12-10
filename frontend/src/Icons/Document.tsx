@@ -1,6 +1,6 @@
 import React from "react";
 
-const File = () => {
+const Document = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ const File = () => {
   );
 };
 
-export default File;
+export default Document;
