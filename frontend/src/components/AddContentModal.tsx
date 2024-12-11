@@ -28,7 +28,7 @@ const contentTypes = [
   },
 ];
 
-function addContent(titleRef, linkRef, isSelected) {
+function addContent(titleRef, linkRef, isSelected, onClose) {
   const inputTitle = titleRef.current.value;
   const inputLink = linkRef.current.value;
   const contentType = Object.keys(isSelected).find(
@@ -36,9 +36,10 @@ function addContent(titleRef, linkRef, isSelected) {
   );
 
   if (inputTitle && inputLink && contentType) {
-    createContent(inputTitle, inputLink, contentType);
+    createContent(inputTitle, inputLink, contentType, onClose);
   }
-  async function createContent(inputTitle, inputLink, contentType) {
+
+  async function createContent(inputTitle, inputLink, contentType, onClose) {
     const result = await axios.post(
       `http://localhost:7777/api/v1/content/`,
       {
@@ -53,7 +54,9 @@ function addContent(titleRef, linkRef, isSelected) {
         withCredentials: true,
       }
     );
-    console.log(result.data);
+    if (result.data.success) {
+      onClose();
+    }
   }
 }
 
@@ -116,7 +119,9 @@ const AddContentModal = ({ isModalOpen, onClose }: AddContentModalProps) => {
                 name="Submit"
                 size="md"
                 type="primary"
-                onClickHandler={() => addContent(titleRef, linkRef, isSelected)}
+                onClickHandler={() =>
+                  addContent(titleRef, linkRef, isSelected, onClose)
+                }
               ></Button>
             </div>
           </div>

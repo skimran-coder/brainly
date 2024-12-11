@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import AuthForm from "../components/AuthForm";
 
 const Auth = () => {
-  const [isSignUpPage, setIsSignUpPage] = useState(false);
+  const [isSignUpPage, setIsSignUpPage] = useState(true);
+
+  function switchTab() {
+    setIsSignUpPage((curr) => !curr);
+  }
 
   return (
-    <div>
-      <h1>
-        {isSignUpPage ? "Signup for new user" : "Signin for existing user"}
-      </h1>
+    <div className="h-screen w-screen bg-bg-main flex justify-center items-center">
+      <AuthForm isSignUpPage={isSignUpPage} switchTab={switchTab} />
     </div>
   );
 };

@@ -84,7 +84,7 @@ export const Card = ({
         )}
       </div>
 
-      <div className="pt-4">
+      <div className="px-2 py-4">
         {tags?.map((t) => (
           <span
             key={t}
