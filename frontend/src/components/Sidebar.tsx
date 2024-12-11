@@ -1,9 +1,10 @@
 import Brain from "../Icons/Brain";
+import Close from "../Icons/Close";
 import Document from "../Icons/Document";
 import Twitter from "../Icons/Twitter";
 import YouTube from "../Icons/YouTube";
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const sideItems = [
     {
       name: "Tweets",
@@ -20,15 +21,26 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="lg:w-1/5 min-h-screen border border-text-secondary border-opacity-20 flex flex-col gap-16">
-      <div className="pt-4 pl-8 flex items-center gap-2 ">
-        <div className="h-8 w-8">
+    <div
+      className={`lg:w-1/5 md:w-1/4 sm:w-1/3 min-h-screen border border-text-secondary border-opacity-20 md:flex flex-col px-4 transition-all ${
+        isSidebarOpen
+          ? "flex absolute z-10  bg-white overflow-hidden"
+          : "hidden"
+      }`}
+    >
+      <div className="pt-4 pl-1 lg:pl-8 sm:pl-4 flex items-center justify-between gap-2 pb-8 md:pb-16">
+        <div className="flex items-center gap-2">
           <Brain />
+          <h1 className="text-text-primary font-semibold text-2xl">Brainly</h1>
         </div>
-        <h1 className="text-text-primary font-semibold text-2xl">Brainly</h1>
+        {isSidebarOpen && (
+          <div className="" onClick={() => setIsSidebarOpen(false)}>
+            <Close />
+          </div>
+        )}
       </div>
 
-      <div className="flex flex-col gap-6 pl-8">
+      <div className="flex flex-col gap-6 sm:pl-4 lg:pl-8">
         {sideItems.map(({ name, icon }) => (
           <ul
             key={name}

@@ -27,7 +27,7 @@ const Button = ({
   const styleSize = {
     sm: "px-2 py-1 text-sm",
     md: "px-4 py-2 text-md",
-    lg: "px-6 py-3 text-lg",
+    lg: "lg:px-6 lg:py-3 lg:text-lg md:px-4 md:py-2 md:text-base px-3 py-2 text-base",
   };
 
   const styleType = {

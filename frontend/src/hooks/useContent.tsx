@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 axios.defaults.withCredentials = true;
 
 export const useContent = () => {
@@ -12,12 +13,16 @@ export const useContent = () => {
       },
       withCredentials: true,
     });
-    setContent(result.data.data);
+    if (result.data.success) {
+      setContent(result.data.data);
+      toast.success("content fetched successfully");
+    } else {
+      toast.warning("Add atleast one content!");
+    }
   }
 
   useEffect(() => {
     getContent();
   }, []);
-  console.log(content);
   return content;
 };

@@ -5,6 +5,10 @@ import YouTube from "../Icons/YouTube";
 import Twitter from "../Icons/Twitter";
 import Document from "../Icons/Document";
 import axios from "axios";
+import { formatDistance } from "date-fns";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 axios.defaults.withCredentials = true;
 
 interface cardProps {
@@ -17,7 +21,6 @@ interface cardProps {
 }
 
 async function deleteContentOne(_id: string) {
-  console.log(_id);
   const result = await axios.delete(
     `http://localhost:7777/api/v1/content/${_id}`,
     {
@@ -28,7 +31,9 @@ async function deleteContentOne(_id: string) {
     }
   );
 
-  console.log(result.data);
+  if(result.data.success){
+    toast.error("content deleted successfully!")
+  }
 }
 
 export const Card = ({
@@ -44,6 +49,13 @@ export const Card = ({
     "Twitter/X": <Twitter />,
     Document: <Document />,
   };
+
+  function convertDate(dateStr) {
+    const str = formatDistance(new Date(dateStr), new Date());
+    return str;
+  }
+
+  const dateCreated = convertDate(createdAt);
 
   return (
     <div
@@ -84,11 +96,11 @@ export const Card = ({
         )}
       </div>
 
-      <div className="px-2 py-4">
+      <div className="px-2 py-8">
         {tags?.map((t) => (
           <span
             key={t}
-            className="mx-1 px-3 py-1 rounded-full bg-bg-tag text-text-secondaryBtn"
+            className="mx-1 px-3 py-2 rounded-full bg-bg-tag text-text-secondaryBtn"
           >
             #{t}
           </span>
@@ -96,7 +108,7 @@ export const Card = ({
       </div>
 
       <div className="pt-6 text-text-secondary text-sm">
-        <p>Added on {createdAt}</p>
+        <p>Added {dateCreated} ago</p>
       </div>
     </div>
   );

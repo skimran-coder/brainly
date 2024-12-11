@@ -40,7 +40,7 @@ export const getContentBulk = async (req: Request, res: Response) => {
       "email username"
     );
     if (results.length === 0) {
-      res.status(404).json({
+      res.status(204).json({
         success: false,
         message: "you don't have any content",
       });

@@ -6,6 +6,8 @@ import Document from "../Icons/Document";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { InputBox } from "../config/config";
+import { ToastContainer, toast } from "react-toastify";
+
 axios.defaults.withCredentials = true;
 
 interface AddContentModalProps {
@@ -56,6 +58,9 @@ function addContent(titleRef, linkRef, isSelected, onClose) {
     );
     if (result.data.success) {
       onClose();
+      toast.success("content added successfully!", {
+        autoClose: 3000, // 3 seconds
+      });
     }
   }
 }
