@@ -6,16 +6,16 @@ import YouTube from "../Icons/YouTube";
 const Sidebar = () => {
   const sideItems = [
     {
-      Name: "Tweets",
-      Icon: <Twitter />,
+      name: "Tweets",
+      icon: <Twitter />,
     },
     {
-      Name: "Videos",
-      Icon: <YouTube />,
+      name: "Videos",
+      icon: <YouTube />,
     },
     {
-      Name: "Documents",
-      Icon: <Document />,
+      name: "Documents",
+      icon: <Document />,
     },
   ];
 
@@ -29,9 +29,12 @@ const Sidebar = () => {
       </div>
 
       <div className="flex flex-col gap-6 pl-8">
-        {sideItems.map((item) => (
-          <ul className="flex gap-1 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 py-1 transition-all rounded-l-lg">
-            <div>{item.Icon}</div> <p className="">{item.Name}</p>
+        {sideItems.map(({ name, icon }) => (
+          <ul
+            key={name}
+            className="flex gap-1 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 py-1 transition-all rounded-l-lg"
+          >
+            <div>{icon}</div> <p className="">{name}</p>
           </ul>
         ))}
       </div>

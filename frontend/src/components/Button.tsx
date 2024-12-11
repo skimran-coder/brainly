@@ -1,13 +1,26 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 interface buttonProps {
-  name: string;
+  name: "YouTube" | "Twitter/X" | "Document";
   type: "primary" | "secondary";
   size: "lg" | "md" | "sm";
   beforeIcon?: ReactElement;
+  isSelected?: {
+    YouTube: boolean;
+    "Twitter/X": boolean;
+    Document: boolean;
+  };
+  onClickHandler?: () => void;
 }
 
-const Button = ({ type, name, size, beforeIcon }: buttonProps) => {
+const Button = ({
+  type,
+  name,
+  size,
+  beforeIcon,
+  isSelected,
+  onClickHandler,
+}: buttonProps) => {
   const defaultStyles =
     "rounded-md flex gap-2 justify-center items-center hover:bg-opacity-80 transition-all";
 
@@ -24,9 +37,12 @@ const Button = ({ type, name, size, beforeIcon }: buttonProps) => {
 
   return (
     <button
-      className={`${styleType[type || "primary"]} ${
-        styleSize[size || "md"]
-      } ${defaultStyles}`}
+      className={`${
+        !isSelected?.[name]
+          ? styleType[type || "primary"]
+          : styleType["primary"]
+      } ${styleSize[size || "md"]} ${defaultStyles}`}
+      onClick={onClickHandler && onClickHandler}
     >
       {beforeIcon && beforeIcon}
       {name}
