@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 axios.defaults.withCredentials = true;
 
-export const useContent = () => {
+export const useContent = (path) => {
   const [content, setContent] = useState();
 
   async function getContent() {
-    const result = await axios.get(`http://localhost:7777/api/v1/content/`, {
+    const result = await axios.get(`http://localhost:7777/api/v1/${path}`, {
       headers: {
         "Content-Type": "application/json",
       },

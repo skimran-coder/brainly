@@ -50,9 +50,7 @@ const PopUpModal = ({
 
       const hash = result.data.data.hash;
 
-      navigator.clipboard.writeText(
-        `http://localhost:7777/api/v1/brain/share/${hash}`
-      );
+      navigator.clipboard.writeText(`http://localhost:5173/brain/${hash}`);
 
       toast.info("Copied to clipboard");
     } else {

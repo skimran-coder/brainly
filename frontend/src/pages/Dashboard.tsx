@@ -12,7 +12,7 @@ import PopUpModal from "../components/PopUpModal";
 import { shareModalText, shareModalTitle } from "../config/config";
 
 const Dashboard = () => {
-  const data = useContent();
+  const data = useContent("content/");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

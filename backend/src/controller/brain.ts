@@ -51,7 +51,6 @@ export const shareBrain = async (req: Request, res: Response) => {
 
 export const fetchSharedBrain = async (req: Request, res: Response) => {
   try {
-    const userId = req.body.userId;
     const hash = req.params.hash;
 
     const brain = await ShareBrainModel.findOne({ hash });
