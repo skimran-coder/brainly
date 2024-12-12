@@ -90,7 +90,7 @@ export const getContentById = async (req: Request, res: Response) => {
   }
 };
 
-export const patchContent = async (req: Request, res: Response) => {
+export const updateContent = async (req: Request, res: Response) => {
   try {
     const contentId = req.params.id;
     const userId = req.body.userId;

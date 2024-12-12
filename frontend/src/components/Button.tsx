@@ -10,7 +10,7 @@ interface buttonProps {
     "Twitter/X": boolean;
     Document: boolean;
   };
-  onClickHandler?: () => void;
+  onClickHandler?: (e) => void;
 }
 
 const Button = ({

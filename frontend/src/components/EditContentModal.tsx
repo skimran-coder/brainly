@@ -1,18 +1,13 @@
-import Button from "./Button";
+import React, { useRef, useState } from "react";
 import Close from "../Icons/Close";
-import { useRef, useState } from "react";
-import axios from "axios";
 import { contentTypes, InputBox, selectType } from "../config/config";
+import Button from "./Button";
+import axios from "axios";
 import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
-interface AddContentModalProps {
-  isModalOpen: boolean;
-  onModalClose: () => void;
-}
-
-function addContent(titleRef, linkRef, isSelected, onModalClose) {
+function editContent(titleRef, linkRef, isSelected, closeModal, contentId) {
   const inputTitle = titleRef.current.value;
   const inputLink = linkRef.current.value;
   const contentType = Object.keys(isSelected).find(
@@ -20,17 +15,18 @@ function addContent(titleRef, linkRef, isSelected, onModalClose) {
   );
 
   if (inputTitle && inputLink && contentType) {
-    createContent(inputTitle, inputLink, contentType, onModalClose);
+    createContent(inputTitle, inputLink, contentType, closeModal, contentId);
   }
 
   async function createContent(
     inputTitle,
     inputLink,
     contentType,
-    onModalClose
+    closeModal,
+    contentId
   ) {
-    const result = await axios.post(
-      `http://localhost:7777/api/v1/content/`,
+    const result = await axios.put(
+      `http://localhost:7777/api/v1/content/${contentId}`,
       {
         title: inputTitle,
         link: inputLink,
@@ -44,35 +40,50 @@ function addContent(titleRef, linkRef, isSelected, onModalClose) {
       }
     );
     if (result.data.success) {
-      onModalClose();
-      toast.success("content added successfully!", {
+      closeModal();
+      toast.success("content updated successfully!", {
         autoClose: 3000, // 3 seconds
       });
     }
   }
 }
 
-const AddContentModal = ({
-  isModalOpen,
-  onModalClose,
-}: AddContentModalProps) => {
+const EditContentModal = ({
+  isEditModalOpen,
+  closeModal,
+  title,
+  link,
+  type,
+  contentId,
+}) => {
   const titleRef = useRef();
   const linkRef = useRef();
 
+  const [currTitle, setCurrTitle] = useState(title);
+  const [currLink, setcurrLink] = useState(link);
+
+  function changeTitle(e) {
+    setCurrTitle(e.target.value);
+  }
+
+  function changeLink(e) {
+    setcurrLink(e.target.value);
+  }
+
   const [isSelected, setIsSelected] = useState({
-    YouTube: true,
-    "Twitter/X": false,
-    Document: false,
+    YouTube: type === "YouTube",
+    "Twitter/X": type === "Twitter/X",
+    Document: type === "Document",
   });
 
   return (
-    isModalOpen && (
+    isEditModalOpen && (
       <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden">
         <div className="flex w-full h-full justify-center items-center">
           <div className="w-96 bg-white  flex flex-col rounded-md">
             <div className="p-4 flex justify-between items-center">
-              <h3 className="text-lg">Add Content</h3>
-              <div onClick={onModalClose}>
+              <h3 className="text-lg">Edit Content</h3>
+              <div onClick={closeModal}>
                 <Close />
               </div>
             </div>
@@ -80,10 +91,14 @@ const AddContentModal = ({
               <InputBox
                 placeholder={"Title of the content..."}
                 reference={titleRef}
+                val={currTitle}
+                onChangeHandler={changeTitle}
               />
               <InputBox
                 placeholder={"URL of the content..."}
                 reference={linkRef}
+                val={currLink}
+                onChangeHandler={changeLink}
               />
               <div className="flex gap-2">
                 {contentTypes.map(({ icon, name }) => (
@@ -99,11 +114,17 @@ const AddContentModal = ({
                 ))}
               </div>
               <Button
-                name="Add"
+                name="Update"
                 size="md"
                 type="primary"
                 onClickHandler={() =>
-                  addContent(titleRef, linkRef, isSelected, onModalClose)
+                  editContent(
+                    titleRef,
+                    linkRef,
+                    isSelected,
+                    closeModal,
+                    contentId
+                  )
                 }
               ></Button>
             </div>
@@ -114,4 +135,4 @@ const AddContentModal = ({
   );
 };
 
-export default AddContentModal;
+export default EditContentModal;

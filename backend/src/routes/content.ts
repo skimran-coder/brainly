@@ -5,7 +5,7 @@ import {
   deleteContent,
   getContentBulk,
   getContentById,
-  patchContent,
+  updateContent,
 } from "../controller/content";
 
 const contentRouter = express.Router();
@@ -16,7 +16,7 @@ contentRouter.get("/", userAuth, getContentBulk);
 
 contentRouter.get("/:id", userAuth, getContentById);
 
-contentRouter.patch("/:id", userAuth, patchContent);
+contentRouter.put("/:id", userAuth, updateContent);
 
 contentRouter.delete("/:id", userAuth, deleteContent);
 

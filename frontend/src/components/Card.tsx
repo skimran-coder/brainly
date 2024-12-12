@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Share from "../Icons/Share";
 import Delete from "../Icons/Delete";
 import YouTube from "../Icons/YouTube";
@@ -8,6 +8,8 @@ import axios from "axios";
 import { formatDistance } from "date-fns";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import Edit from "../Icons/Edit";
+import EditContentModal from "./EditContentModal";
 
 axios.defaults.withCredentials = true;
 
@@ -31,8 +33,8 @@ async function deleteContentOne(_id: string) {
     }
   );
 
-  if(result.data.success){
-    toast.error("content deleted successfully!")
+  if (result.data.success) {
+    toast.error("content deleted successfully!");
   }
 }
 
@@ -50,6 +52,12 @@ export const Card = ({
     Document: <Document />,
   };
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  function closeModal() {
+    setIsEditModalOpen(false);
+  }
+
   function convertDate(dateStr) {
     const str = formatDistance(new Date(dateStr), new Date());
     return str;
@@ -58,24 +66,37 @@ export const Card = ({
   const dateCreated = convertDate(createdAt);
 
   return (
-    <div
-      className={`min-h-72 h-fit w-96 p-8 bg-white  shadow-md border rounded-md`}
-    >
+    <div className={`min-h-72 h-fit p-8 bg-white  shadow-md border rounded-md`}>
+      <EditContentModal
+        isEditModalOpen={isEditModalOpen}
+        closeModal={closeModal}
+        title={title}
+        link={link}
+        type={type}
+        contentId={_id}
+      />
       <div className="flex justify-between items-center gap-6">
         <div className="flex gap-2 items-center justify-center text-text-secondary">
           <div className="min-w-fit">{icon[type]}</div>
-          <h2 className="text-text-primary">{title}</h2>
         </div>
         <div className="flex  min-w-fit gap-4 items-center text-text-secondary">
-          <div className="cursor-pointer">
-            <Share />
+          <div
+            className="cursor-pointer"
+            onClick={() => setIsEditModalOpen(true)}
+          >
+            <Edit />
           </div>
           <div className="cursor-pointer" onClick={() => deleteContentOne(_id)}>
             <Delete />
           </div>
+          <div className="cursor-pointer">
+            <Share />
+          </div>
         </div>
       </div>
-
+      <div>
+        <h2 className="text-text-primary pt-4">{title}</h2>
+      </div>
       <div className="pt-4">
         {type === "YouTube" ? (
           <iframe
