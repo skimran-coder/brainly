@@ -20,4 +20,6 @@ contentRouter.put("/:id", userAuth, updateContent);
 
 contentRouter.delete("/:id", userAuth, deleteContent);
 
+
+
 export default contentRouter;
