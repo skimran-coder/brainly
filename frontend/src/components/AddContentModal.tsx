@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import { contentTypes, InputBox, selectType } from "../config/config";
 import { toast } from "react-toastify";
+import CirclePlus from "../Icons/CirclePlus";
 
 axios.defaults.withCredentials = true;
 
@@ -71,7 +72,7 @@ const AddContentModal = ({
         <div className="flex w-full h-full justify-center items-center">
           <div className="w-96 bg-white  flex flex-col rounded-md">
             <div className="p-4 flex justify-between items-center">
-              <h3 className="text-lg">Add Content</h3>
+              <h3 className="text-lg font-semibold">Add Content</h3>
               <div onClick={onModalClose}>
                 <Close />
               </div>
@@ -99,9 +100,10 @@ const AddContentModal = ({
                 ))}
               </div>
               <Button
-                name="Add"
+                name="Add Content"
                 size="md"
                 type="primary"
+                beforeIcon={<CirclePlus />}
                 onClickHandler={() =>
                   addContent(titleRef, linkRef, isSelected, onModalClose)
                 }

@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Edit from "../Icons/Edit";
 import EditContentModal from "./EditContentModal";
+import PopUpModal from "./PopUpModal";
+import { deleteModalText, deleteModalTitle } from "../config/config";
 
 axios.defaults.withCredentials = true;
 
@@ -20,22 +22,6 @@ interface cardProps {
   tags?: string[];
   createdAt: string;
   _id: string;
-}
-
-async function deleteContentOne(_id: string) {
-  const result = await axios.delete(
-    `http://localhost:7777/api/v1/content/${_id}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    }
-  );
-
-  if (result.data.success) {
-    toast.error("content deleted successfully!");
-  }
 }
 
 export const Card = ({
@@ -53,8 +39,13 @@ export const Card = ({
   };
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  function closeModal() {
+  function closeDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
+  function closeEditModal() {
     setIsEditModalOpen(false);
   }
 
@@ -69,12 +60,23 @@ export const Card = ({
     <div className={`min-h-72 h-fit p-8 bg-white  shadow-md border rounded-md`}>
       <EditContentModal
         isEditModalOpen={isEditModalOpen}
-        closeModal={closeModal}
+        closeEditModal={closeEditModal}
         title={title}
         link={link}
         type={type}
         contentId={_id}
       />
+
+      {isDeleteModalOpen && (
+        <PopUpModal
+          isDeleteModal={isDeleteModalOpen}
+          closeModal={closeDeleteModal}
+          text={deleteModalText}
+          title={deleteModalTitle}
+          contentId={_id}
+        />
+      )}
+
       <div className="flex justify-between items-center gap-6">
         <div className="flex gap-2 items-center justify-center text-text-secondary">
           <div className="min-w-fit">{icon[type]}</div>
@@ -86,7 +88,10 @@ export const Card = ({
           >
             <Edit />
           </div>
-          <div className="cursor-pointer" onClick={() => deleteContentOne(_id)}>
+          <div
+            className="cursor-pointer"
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
             <Delete />
           </div>
           <div className="cursor-pointer">

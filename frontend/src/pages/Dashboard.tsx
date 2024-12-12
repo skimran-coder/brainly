@@ -8,6 +8,8 @@ import Share from "../Icons/Share";
 import { useContent } from "../hooks/useContent";
 import Bars from "../Icons/Bars";
 import { ToastContainer } from "react-toastify";
+import PopUpModal from "../components/PopUpModal";
+import { shareModalText, shareModalTitle } from "../config/config";
 
 const Dashboard = () => {
   const data = useContent();
@@ -15,6 +17,11 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [filterContent, setFilterContent] = useState("Dashboard");
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+  function closeShareModal() {
+    setIsShareModalOpen(false);
+  }
 
   function switchFilter(filter: string) {
     setFilterContent(filter);
@@ -57,6 +64,15 @@ const Dashboard = () => {
     <div className="flex w-screen">
       <AddContentModal isModalOpen={isModalOpen} onModalClose={onModalClose} />
 
+      {isShareModalOpen && (
+        <PopUpModal
+          isShareModal={isShareModalOpen}
+          closeModal={closeShareModal}
+          text={shareModalText}
+          title={shareModalTitle}
+        />
+      )}
+
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
@@ -81,18 +97,17 @@ const Dashboard = () => {
               name="Share Brain"
               size="lg"
               beforeIcon={<Share />}
+              onClickHandler={() => setIsShareModalOpen(true)}
             />
-            <div onClick={() => setIsModalOpen(true)}>
-              <Button
-                type="primary"
-                name="Add Content"
-                size="lg"
-                beforeIcon={<Plus />}
-              />
-            </div>
+            <Button
+              type="primary"
+              name="Add Content"
+              size="lg"
+              beforeIcon={<Plus />}
+              onClickHandler={() => setIsModalOpen(true)}
+            />
           </div>
         </div>
-        {console.log(dataToRender)}
 
         <div className="bg-bg-main flex flex-wrap gap-4 p-4">
           {dataToRender &&

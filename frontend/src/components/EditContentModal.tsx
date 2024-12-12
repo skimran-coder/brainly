@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
-function editContent(titleRef, linkRef, isSelected, closeModal, contentId) {
+function editContent(titleRef, linkRef, isSelected, closeEditModal, contentId) {
   const inputTitle = titleRef.current.value;
   const inputLink = linkRef.current.value;
   const contentType = Object.keys(isSelected).find(
@@ -15,14 +15,20 @@ function editContent(titleRef, linkRef, isSelected, closeModal, contentId) {
   );
 
   if (inputTitle && inputLink && contentType) {
-    createContent(inputTitle, inputLink, contentType, closeModal, contentId);
+    createContent(
+      inputTitle,
+      inputLink,
+      contentType,
+      closeEditModal,
+      contentId
+    );
   }
 
   async function createContent(
     inputTitle,
     inputLink,
     contentType,
-    closeModal,
+    closeEditModal,
     contentId
   ) {
     const result = await axios.put(
@@ -40,7 +46,7 @@ function editContent(titleRef, linkRef, isSelected, closeModal, contentId) {
       }
     );
     if (result.data.success) {
-      closeModal();
+      closeEditModal();
       toast.success("content updated successfully!", {
         autoClose: 3000, // 3 seconds
       });
@@ -50,7 +56,7 @@ function editContent(titleRef, linkRef, isSelected, closeModal, contentId) {
 
 const EditContentModal = ({
   isEditModalOpen,
-  closeModal,
+  closeEditModal,
   title,
   link,
   type,
@@ -83,7 +89,7 @@ const EditContentModal = ({
           <div className="w-96 bg-white  flex flex-col rounded-md">
             <div className="p-4 flex justify-between items-center">
               <h3 className="text-lg">Edit Content</h3>
-              <div onClick={closeModal}>
+              <div onClick={closeEditModal}>
                 <Close />
               </div>
             </div>
@@ -122,7 +128,7 @@ const EditContentModal = ({
                     titleRef,
                     linkRef,
                     isSelected,
-                    closeModal,
+                    closeEditModal,
                     contentId
                   )
                 }
