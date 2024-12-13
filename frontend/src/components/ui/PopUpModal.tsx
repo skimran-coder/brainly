@@ -1,26 +1,18 @@
-import React from "react";
 import Close from "../Icons/Close";
 import Button from "./Button";
 import Copy from "../Icons/Copy";
 import Delete from "../Icons/Delete";
-import axios from "axios";
-import { toast } from "react-toastify";
+import deleteContentOne from "../../utils/deleteContentOne";
+import shareBrain from "../../utils/shareBrain";
+import { useLocation } from "react-router-dom";
 
-async function deleteContentOne(_id: string, closeModal) {
-  const result = await axios.delete(
-    `http://localhost:7777/api/v1/content/${_id}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    }
-  );
-
-  if (result.data.success) {
-    toast.error("content deleted successfully!");
-    closeModal();
-  }
+interface PopUpModalProps {
+  isShareModal?: boolean;
+  isDeleteModal?: boolean;
+  closeModal: () => void;
+  text: string;
+  title: string;
+  contentId?: string;
 }
 
 const PopUpModal = ({
@@ -30,35 +22,9 @@ const PopUpModal = ({
   text,
   title,
   contentId,
-}) => {
-  async function shareBrain(share: boolean) {
-    const result = await axios.post(
-      "http://localhost:7777/api/v1/brain/share",
-      {
-        share,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
-
-    if (share) {
-      toast.success("Brain shared successfully!");
-
-      const hash = result.data.data.hash;
-
-      navigator.clipboard.writeText(`http://localhost:5173/brain/${hash}`);
-
-      toast.info("Copied to clipboard");
-    } else {
-      toast.error("Shared URL deleted successfully!");
-    }
-
-    closeModal();
-  }
+}: PopUpModalProps) => {
+  const location = useLocation();
+  console.log(location);
 
   return (
     <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden">
@@ -84,14 +50,14 @@ const PopUpModal = ({
                   size="md"
                   type="secondary"
                   beforeIcon={<Delete />}
-                  onClickHandler={() => shareBrain(false)}
+                  onClickHandler={() => shareBrain(false, closeModal)}
                 />
                 <Button
                   name="Share Brain"
                   size="md"
                   type="primary"
                   beforeIcon={<Copy />}
-                  onClickHandler={() => shareBrain(true)}
+                  onClickHandler={() => shareBrain(true, closeModal, location)}
                 />
               </div>
             )}
@@ -102,7 +68,7 @@ const PopUpModal = ({
                 type="primary"
                 size="md"
                 beforeIcon={<Delete />}
-                onClickHandler={() => deleteContentOne(contentId, closeModal)}
+                onClickHandler={() => deleteContentOne(contentId!, closeModal)}
               />
             )}
           </div>

@@ -1,11 +1,11 @@
-import { useContent } from "../hooks/useContent";
+import useContent from "../hooks/useContent";
 import { Card } from "../components/ui/Card";
 import { useParams } from "react-router-dom";
 
 const SharedBrain = () => {
   const { hash } = useParams();
 
-  const data = useContent(`brain/share/${hash}`);
+  const data = useContent(`/brain/share/${hash}`);
 
   return (
     <div className="min-h-screen bg-bg-main grid grid-cols-4 gap-4 p-4 ">

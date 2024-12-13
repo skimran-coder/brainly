@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import validateUserInput from "../../utils/validateUserInput";
 import validator from "validator";
 import { toast } from "react-toastify";
+import signUpUser from "../../utils/signUpUser";
+import signInUser from "../../utils/signInUser";
 
 interface authFormPropsType {
   isSignUpPage: boolean;
@@ -22,67 +24,6 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
 
   function switchIsHidden() {
     setIsHidden((curr) => !curr);
-  }
-
-  async function signUpUser(usernameRef, emailRef, passwordRef) {
-    const username = usernameRef.current.value;
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-
-    const errorMsg = validateUserInput(username, email, password);
-
-    if (errorMsg) {
-      setInputErrorMsg(errorMsg);
-      return;
-    }
-
-    try {
-      const result = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
-        {
-          username,
-          email,
-          password,
-        }
-      );
-
-      if (result.data.success) {
-        switchTab();
-      }
-    } catch (error) {
-      setInputErrorMsg(error.response.data.message);
-      toast.error(error.response.data.message);
-      console.error(error);
-    }
-  }
-
-  async function signInUser(usernameRef, passwordRef) {
-    const usernameOrEmail = usernameRef.current.value;
-    const password = passwordRef.current.value;
-
-    if (!validator.isStrongPassword(password)) {
-      setInputErrorMsg("password must be strong.");
-      return;
-    }
-
-    try {
-      const result = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/signin`,
-        {
-          username: usernameOrEmail,
-          email: usernameOrEmail,
-          password,
-        }
-      );
-
-      if (result.data.success) {
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      setInputErrorMsg(error.response.data.message);
-      toast.error(error.response.data.message);
-      console.error(error);
-    }
   }
 
   return (
@@ -151,8 +92,21 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
           name={isSignUpPage ? "Sign Up" : "Sign In"}
           onClickHandler={
             isSignUpPage
-              ? () => signUpUser(usernameRef, emailRef, passwordRef)
-              : () => signInUser(usernameRef, passwordRef)
+              ? () =>
+                  signUpUser(
+                    usernameRef,
+                    emailRef,
+                    passwordRef,
+                    setInputErrorMsg,
+                    switchTab
+                  )
+              : () =>
+                  signInUser(
+                    usernameRef,
+                    passwordRef,
+                    setInputErrorMsg,
+                    navigate
+                  )
           }
         />
       </div>

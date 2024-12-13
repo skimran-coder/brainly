@@ -3,8 +3,8 @@ import Close from "../Icons/Close";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { contentTypes, InputBox, selectType } from "../../config/config";
-import { toast } from "react-toastify";
 import CirclePlus from "../Icons/CirclePlus";
+import createContent from "../../utils/createContent";
 
 axios.defaults.withCredentials = true;
 
@@ -22,34 +22,6 @@ function addContent(titleRef, linkRef, isSelected, onModalClose) {
 
   if (inputTitle && inputLink && contentType) {
     createContent(inputTitle, inputLink, contentType, onModalClose);
-  }
-
-  async function createContent(
-    inputTitle,
-    inputLink,
-    contentType,
-    onModalClose
-  ) {
-    const result = await axios.post(
-      `http://localhost:7777/api/v1/content/`,
-      {
-        title: inputTitle,
-        link: inputLink,
-        type: contentType,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
-    if (result.data.success) {
-      onModalClose();
-      toast.success("content added successfully!", {
-        autoClose: 3000, // 3 seconds
-      });
-    }
   }
 }
 

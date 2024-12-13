@@ -1,18 +1,14 @@
 // Dashboard Component
 import { useEffect, useState } from "react";
 import AddContentModal from "../components/ui/AddContentModal";
-import Button from "../components/ui/Button";
-import { Card } from "../components/ui/Card";
 import Sidebar from "../components/ui/Sidebar";
-import Plus from "../components/Icons/Plus";
-import Share from "../components/Icons/Share";
-import { useContent } from "../hooks/useContent";
-import Bars from "../components/Icons/Bars";
+import useContent from "../hooks/useContent";
 import { ToastContainer } from "react-toastify";
 import PopUpModal from "../components/ui/PopUpModal";
 import { shareModalText, shareModalTitle } from "../config/config";
 import Header from "../components/ui/Header";
 import ContentSection from "../components/ui/ContentSection";
+import filterData from "../utils/filterData";
 
 const Dashboard = () => {
   // State Management
@@ -23,38 +19,22 @@ const Dashboard = () => {
   const [dataToRender, setDataToRender] = useState([]);
 
   // Fetch Content
-  const data = useContent("content/");
+  const data = useContent("/content");
 
   // Modal Handlers
   const toggleAddContentModal = () => setIsModalOpen((prev) => !prev);
   const toggleShareModal = () => setIsShareModalOpen((prev) => !prev);
 
   // Sidebar Filter
-  const switchFilter = (filter) => {
+  const switchFilter = (filter: string) => {
     setFilterContent(filter);
     setIsSidebarOpen(false);
   };
 
-  // Filter Content Data
-  function filterData(filter, data) {
-    if (filter === "Dashboard" && data) {
-      setDataToRender(data);
-    }
-    if (filter === "Videos" && data) {
-      const filteredData = data.filter((d) => d.type === "YouTube");
-      setDataToRender(filteredData);
-    }
-    if (filter === "Tweets" && data) {
-      const filteredData = data.filter((d) => d.type === "Twitter/X");
-      setDataToRender(filteredData);
-    }
-    if (filter === "Documents" && data) {
-      const filteredData = data.filter((d) => d.type === "Document");
-      setDataToRender(filteredData);
-    }
-  }
-
-  useEffect(() => filterData(filterContent, data), [filterContent, data]);
+  useEffect(
+    () => filterData(filterContent, data, setDataToRender),
+    [filterContent, data]
+  );
 
   // JSX Render
   return (

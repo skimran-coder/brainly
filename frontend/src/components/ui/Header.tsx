@@ -3,12 +3,19 @@ import Plus from "../Icons/Plus";
 import Share from "../Icons/Share";
 import Button from "./Button";
 
+interface HeaderProps {
+  onBarsClick: () => void;
+  onAddContentClick: () => void;
+  onShareBrainClick: () => void;
+  filterContent: string;
+}
+
 const Header = ({
   onBarsClick,
   onAddContentClick,
   onShareBrainClick,
   filterContent,
-}) => (
+}: HeaderProps) => (
   <div className="flex items-center justify-between mr-4">
     <div className="pl-2 md:hidden" onClick={onBarsClick}>
       <Bars />
