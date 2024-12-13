@@ -1,9 +1,8 @@
-import { useRef } from "react";
-import { InputBox } from "../config/config";
+import { useRef, useState } from "react";
+import { InputBox } from "../../config/config";
 import Button from "./Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import validator from "validator";
 
 interface authFormPropsType {
   isSignUpPage: boolean;
@@ -11,6 +10,12 @@ interface authFormPropsType {
 }
 
 const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
+  const [isHidden, setIsHidden] = useState(true);
+
+  function switchIsHidden() {
+    setIsHidden((curr) => !curr);
+  }
+
   const navigate = useNavigate();
   const usernameRef = useRef();
   const emailRef = useRef();
@@ -97,7 +102,13 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
           <InputBox placeholder={"Email"} reference={emailRef} />
         )}
 
-        <InputBox placeholder={"Password"} reference={passwordRef} />
+        <InputBox
+          placeholder={"Password"}
+          reference={passwordRef}
+          isPassInput={true}
+          isHidden={isHidden}
+          switchIsHidden={switchIsHidden}
+        />
 
         <Button
           name={isSignUpPage ? "Sign Up" : "Sign In"}

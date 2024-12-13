@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import Edit from "../Icons/Edit";
 import EditContentModal from "./EditContentModal";
 import PopUpModal from "./PopUpModal";
-import { deleteModalText, deleteModalTitle } from "../config/config";
+import { deleteModalText, deleteModalTitle } from "../../config/config";
 
 axios.defaults.withCredentials = true;
 

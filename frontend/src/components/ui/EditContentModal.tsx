@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Close from "../Icons/Close";
-import { contentTypes, InputBox, selectType } from "../config/config";
+import { contentTypes, InputBox, selectType } from "../../config/config";
 import Button from "./Button";
 import axios from "axios";
 import { toast } from "react-toastify";

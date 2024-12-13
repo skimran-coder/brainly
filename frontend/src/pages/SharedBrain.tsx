@@ -1,8 +1,6 @@
-import React from "react";
 import { useContent } from "../hooks/useContent";
-import { Card } from "../components/Card";
+import { Card } from "../components/ui/Card";
 import { useParams } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
 
 const SharedBrain = () => {
   const { hash } = useParams();
@@ -11,7 +9,6 @@ const SharedBrain = () => {
 
   return (
     <div className="min-h-screen bg-bg-main grid grid-cols-4 gap-4 p-4 ">
-      
       {" "}
       {data &&
         data.map(({ title, link, type, _id, createdAt }) => (

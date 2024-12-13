@@ -2,7 +2,7 @@ import Button from "./Button";
 import Close from "../Icons/Close";
 import { useRef, useState } from "react";
 import axios from "axios";
-import { contentTypes, InputBox, selectType } from "../config/config";
+import { contentTypes, InputBox, selectType } from "../../config/config";
 import { toast } from "react-toastify";
 import CirclePlus from "../Icons/CirclePlus";
 
@@ -86,7 +86,7 @@ const AddContentModal = ({
                 placeholder={"URL of the content..."}
                 reference={linkRef}
               />
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {contentTypes.map(({ icon, name }) => (
                   <Button
                     name={name}

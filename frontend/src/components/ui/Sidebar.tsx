@@ -1,9 +1,14 @@
+import axios from "axios";
 import AllContent from "../Icons/AllContent";
 import Brain from "../Icons/Brain";
 import Close from "../Icons/Close";
 import Document from "../Icons/Document";
+import Logout from "../Icons/Logout";
 import Twitter from "../Icons/Twitter";
 import YouTube from "../Icons/YouTube";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import AppTitle from "./AppTitle";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -30,6 +35,17 @@ const Sidebar = ({
     },
   ];
 
+  const navigate = useNavigate();
+
+  async function logout() {
+    const result = await axios.post("http://localhost:7777/api/v1/auth/logout");
+
+    if (result.data.success) {
+      toast.info("Logged out successfully");
+      navigate("/auth");
+    }
+  }
+
   return (
     <div
       className={`lg:w-1/5 md:w-1/4 sm:w-1/3 min-h-screen border border-text-secondary border-opacity-20 md:flex flex-col pl-4 transition-all ${
@@ -39,10 +55,7 @@ const Sidebar = ({
       }`}
     >
       <div className="pt-4 pl-1 lg:pl-8 sm:pl-4 flex items-center justify-between gap-2 pb-8 md:pb-16">
-        <div className="flex items-center gap-2">
-          <Brain />
-          <h1 className="text-text-primary font-semibold text-2xl">Brainly</h1>
-        </div>
+        <AppTitle />
         {isSidebarOpen && (
           <div className="" onClick={() => setIsSidebarOpen(false)}>
             <Close />
@@ -62,6 +75,16 @@ const Sidebar = ({
             <div>{icon}</div> <p className="">{name}</p>
           </ul>
         ))}
+      </div>
+
+      <div className="flex flex-col gap-6 sm:pl-4 lg:pl-8">
+        <ul
+          className="flex gap-2 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 mt-20 transition-all rounded-l-lg "
+          onClick={() => logout()}
+        >
+          <Logout />
+          <p>Logout</p>
+        </ul>
       </div>
     </div>
   );
