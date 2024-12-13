@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import PopUpModal from "../components/ui/PopUpModal";
 import { shareModalText, shareModalTitle } from "../config/config";
 import Header from "../components/ui/Header";
-import ContentSection from "./ContentSection";
+import ContentSection from "../components/ui/ContentSection";
 
 const Dashboard = () => {
   // State Management

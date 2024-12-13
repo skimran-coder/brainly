@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AuthForm from "../components/ui/AuthForm";
 import Button from "../components/ui/Button";
-import Header from "../components/ui/Header";
 import AppTitle from "../components/ui/AppTitle";
+import { ToastContainer } from "react-toastify";
 
 const Auth = () => {
   const [isSignUpPage, setIsSignUpPage] = useState(true);
@@ -26,6 +26,7 @@ const Auth = () => {
       <div className="h-3/4 w-screen flex justify-center items-center">
         <AuthForm isSignUpPage={isSignUpPage} switchTab={switchTab} />
       </div>
+      <ToastContainer autoClose={5000} closeOnClick position="bottom-right" />
     </div>
   );
 };

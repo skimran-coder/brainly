@@ -1,9 +1,9 @@
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 
 interface buttonProps {
-  name: "YouTube" | "Twitter/X" | "Document";
-  type: "primary" | "secondary";
-  size: "lg" | "md" | "sm";
+  name: string;
+  type?: "primary" | "secondary";
+  size?: "lg" | "md" | "sm";
   beforeIcon?: ReactElement;
   isSelected?: {
     YouTube: boolean;

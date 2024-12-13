@@ -3,6 +3,9 @@ import { InputBox } from "../../config/config";
 import Button from "./Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import validateUserInput from "../../utils/validateUserInput";
+import validator from "validator";
+import { toast } from "react-toastify";
 
 interface authFormPropsType {
   isSignUpPage: boolean;
@@ -10,53 +13,75 @@ interface authFormPropsType {
 }
 
 const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
-  const [isHidden, setIsHidden] = useState(true);
-
-  function switchIsHidden() {
-    setIsHidden((curr) => !curr);
-  }
-
   const navigate = useNavigate();
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const [isHidden, setIsHidden] = useState(true);
+  const [inputErrorMsg, setInputErrorMsg] = useState("");
+
+  function switchIsHidden() {
+    setIsHidden((curr) => !curr);
+  }
 
   async function signUpUser(usernameRef, emailRef, passwordRef) {
     const username = usernameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    const result = await axios.post(
-      "http://localhost:7777/api/v1/auth/signup",
-      {
-        username,
-        email,
-        password,
-      }
-    );
+    const errorMsg = validateUserInput(username, email, password);
 
-    if (result.data.success) {
-      switchTab();
+    if (errorMsg) {
+      setInputErrorMsg(errorMsg);
+      return;
+    }
+
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+        {
+          username,
+          email,
+          password,
+        }
+      );
+
+      if (result.data.success) {
+        switchTab();
+      }
+    } catch (error) {
+      setInputErrorMsg(error.response.data.message);
+      toast.error(error.response.data.message);
+      console.error(error);
     }
   }
 
   async function signInUser(usernameRef, passwordRef) {
-    // validator.isEmail(usernameRef.current.value);
-
     const usernameOrEmail = usernameRef.current.value;
     const password = passwordRef.current.value;
 
-    const result = await axios.post(
-      "http://localhost:7777/api/v1/auth/signin",
-      {
-        username: usernameOrEmail,
-        email: usernameOrEmail,
-        password,
-      }
-    );
+    if (!validator.isStrongPassword(password)) {
+      setInputErrorMsg("password must be strong.");
+      return;
+    }
 
-    if (result.data.success) {
-      navigate("/dashboard");
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/signin`,
+        {
+          username: usernameOrEmail,
+          email: usernameOrEmail,
+          password,
+        }
+      );
+
+      if (result.data.success) {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setInputErrorMsg(error.response.data.message);
+      toast.error(error.response.data.message);
+      console.error(error);
     }
   }
 
@@ -98,8 +123,16 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
           reference={usernameRef}
         />
 
+        {inputErrorMsg.includes("username") && (
+          <span className="text-sm text-red-400">{inputErrorMsg}</span>
+        )}
+
         {isSignUpPage && (
           <InputBox placeholder={"Email"} reference={emailRef} />
+        )}
+
+        {inputErrorMsg.includes("email") && (
+          <span className="text-sm text-red-400">{inputErrorMsg}</span>
         )}
 
         <InputBox
@@ -109,6 +142,10 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
           isHidden={isHidden}
           switchIsHidden={switchIsHidden}
         />
+
+        {inputErrorMsg.includes("password") && (
+          <span className="text-sm text-red-400">{inputErrorMsg}</span>
+        )}
 
         <Button
           name={isSignUpPage ? "Sign Up" : "Sign In"}

@@ -1,4 +1,4 @@
-import { Card } from "../components/ui/Card";
+import { Card } from "./Card";
 
 const ContentSection = ({ dataToRender }) => (
   <div className="bg-bg-main flex flex-wrap gap-4 p-4">

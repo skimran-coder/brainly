@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 axios.defaults.withCredentials = true;
 
-export const useContent = (path) => {
+export const useContent = (path: string) => {
   const [content, setContent] = useState();
 
   async function getContent() {
