@@ -1,11 +1,7 @@
 import { useRef, useState } from "react";
 import { InputBox } from "../../config/config";
 import Button from "./Button";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import validateUserInput from "../../utils/validateUserInput";
-import validator from "validator";
-import { toast } from "react-toastify";
 import signUpUser from "../../utils/signUpUser";
 import signInUser from "../../utils/signInUser";
 
@@ -27,7 +23,7 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
   }
 
   return (
-    <div className="bg-white w-full max-w-[450px] px-8 sm:w-3/4 md:w-2/4 lg:w-1/4 p-8 rounded-md shadow-md flex flex-col justify-evenly">
+    <div className="bg-white w-full max-w-[600px] px-8 sm:w-3/4 md:w-5/12 lg:w-4/12 p-8 rounded-md shadow-lg flex flex-col justify-evenly">
       <div className="pb-4">
         {isSignUpPage ? (
           <div>
