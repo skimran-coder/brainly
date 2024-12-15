@@ -19,7 +19,7 @@ const contentSchema = new Schema<Content>(
     link: String,
     title: String,
     description: { type: String, maxlength: 500 },
-    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+    tags: [{ type: String }],
     type: {
       type: String,
       enum: [

@@ -7,9 +7,21 @@ import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
-function editContent(titleRef, linkRef, isSelected, closeEditModal, contentId) {
+function editContent(
+  titleRef,
+  linkRef,
+  isSelected,
+  tagRef,
+  closeEditModal,
+  contentId
+) {
   const inputTitle = titleRef.current.value;
   const inputLink = linkRef.current.value;
+  const tags = tagRef.current.value;
+  const tagsArr = tags
+    .trim()
+    .split(",")
+    .filter((tag) => tag);
   const contentType = Object.keys(isSelected).find(
     (key) => isSelected[key] === true
   );
@@ -19,6 +31,7 @@ function editContent(titleRef, linkRef, isSelected, closeEditModal, contentId) {
       inputTitle,
       inputLink,
       contentType,
+      tagsArr,
       closeEditModal,
       contentId
     );
@@ -28,6 +41,7 @@ function editContent(titleRef, linkRef, isSelected, closeEditModal, contentId) {
     inputTitle,
     inputLink,
     contentType,
+    tagsArr,
     closeEditModal,
     contentId
   ) {
@@ -37,6 +51,7 @@ function editContent(titleRef, linkRef, isSelected, closeEditModal, contentId) {
         title: inputTitle,
         link: inputLink,
         type: contentType,
+        tags: tagsArr,
       },
       {
         headers: {
@@ -60,20 +75,26 @@ const EditContentModal = ({
   title,
   link,
   type,
+  tags,
   contentId,
 }) => {
   const titleRef = useRef();
   const linkRef = useRef();
+  const tagRef = useRef();
 
   const [currTitle, setCurrTitle] = useState(title);
-  const [currLink, setcurrLink] = useState(link);
+  const [currLink, setCurrLink] = useState(link);
+  const [currTags, setCurrTags] = useState(tags);
 
   function changeTitle(e) {
     setCurrTitle(e.target.value);
   }
 
   function changeLink(e) {
-    setcurrLink(e.target.value);
+    setCurrLink(e.target.value);
+  }
+  function cahngeTags(e) {
+    setCurrTags(e.target.value);
   }
 
   const [isSelected, setIsSelected] = useState({
@@ -119,6 +140,12 @@ const EditContentModal = ({
                   />
                 ))}
               </div>
+              <InputBox
+                placeholder="tags"
+                reference={tagRef}
+                val={currTags}
+                onChangeHandler={cahngeTags}
+              />
               <Button
                 name="Update"
                 size="md"
@@ -128,6 +155,7 @@ const EditContentModal = ({
                     titleRef,
                     linkRef,
                     isSelected,
+                    tagRef,
                     closeEditModal,
                     contentId
                   )

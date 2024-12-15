@@ -1,7 +1,14 @@
 import axios from "axios";
+import { ta } from "date-fns/locale";
 import { toast } from "react-toastify";
 
-async function createContent(inputTitle, inputLink, contentType, onModalClose) {
+async function createContent(
+  inputTitle,
+  inputLink,
+  contentType,
+  tagsArr,
+  onModalClose
+) {
   try {
     const result = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/content`,
@@ -9,6 +16,7 @@ async function createContent(inputTitle, inputLink, contentType, onModalClose) {
         title: inputTitle,
         link: inputLink,
         type: contentType,
+        tags: tagsArr,
       },
       {
         headers: {

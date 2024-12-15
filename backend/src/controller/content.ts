@@ -4,7 +4,7 @@ import UserModel from "../models/user";
 
 export const createContent = async (req: Request, res: Response) => {
   try {
-    const { title, link, type, userId } = req.body;
+    const { title, link, type, tags, userId } = req.body;
 
     const loggedInUser = await UserModel.findById(userId);
 
@@ -16,7 +16,13 @@ export const createContent = async (req: Request, res: Response) => {
       return;
     }
 
-    const result = await ContentModel.create({ userId, title, link, type });
+    const result = await ContentModel.create({
+      userId,
+      title,
+      link,
+      type,
+      tags,
+    });
 
     res.status(201).json({
       success: true,
@@ -94,6 +100,8 @@ export const updateContent = async (req: Request, res: Response) => {
   try {
     const contentId = req.params.id;
     const userId = req.body.userId;
+
+    console.log(req.body);
 
     const result = await ContentModel.findOneAndUpdate(
       {

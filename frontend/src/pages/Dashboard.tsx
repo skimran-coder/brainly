@@ -21,6 +21,8 @@ const Dashboard = () => {
 
   const [dataToRender, setDataToRender] = useState(content);
 
+  console.log(dataToRender)
+
   // Modal Handlers
   const toggleAddContentModal = () => setIsModalOpen((prev) => !prev);
   const toggleShareModal = () => setIsShareModalOpen((prev) => !prev);
@@ -71,6 +73,7 @@ const Dashboard = () => {
           onShareBrainClick={toggleShareModal}
           filterContent={filterContent}
         />
+
 
         <ContentSection dataToRender={dataToRender} />
       </div>

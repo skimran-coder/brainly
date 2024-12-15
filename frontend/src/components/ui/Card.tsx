@@ -64,6 +64,7 @@ export const Card = ({
         title={title}
         link={link}
         type={type}
+        tags={tags}
         contentId={_id}
       />
 
@@ -106,8 +107,6 @@ export const Card = ({
         {type === "YouTube" ? (
           <iframe
             className="w-full aspect-video rounded-md"
-            // https://www.youtube.com/4lb2pXWWXJI
-            // https://www.youtube.com/embed/4lb2pXWWXJI?si=TQ88LO7dFkfLwAyh
             src={link.replace("watch?v=", "/embed/")}
             title="YouTube video player"
             frameBorder="0"
@@ -122,11 +121,11 @@ export const Card = ({
         )}
       </div>
 
-      <div className="px-2 py-8">
+      <div className=" flex flex-wrap py-4">
         {tags?.map((t) => (
           <span
             key={t}
-            className="mx-1 px-3 py-2 rounded-full bg-bg-tag text-text-secondaryBtn"
+            className="m-1 px-3 py-1 rounded-full bg-bg-tag text-text-secondaryBtn"
           >
             #{t}
           </span>
