@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import AppTitle from "./AppTitle";
 import { Dispatch, SetStateAction } from "react";
 import logout from "../../utils/logout";
+import { useDispatch } from "react-redux";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -24,7 +25,7 @@ const Sidebar = ({
 }: SidebarProps) => {
   const sideItems = [
     {
-      name: "Dashboard",
+      name: "My Brain",
       icon: <AllContent />,
     },
     {
@@ -42,6 +43,7 @@ const Sidebar = ({
   ];
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -77,7 +79,7 @@ const Sidebar = ({
       <div className="flex flex-col gap-6 sm:pl-4 lg:pl-8">
         <ul
           className="flex gap-2 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 mt-20 transition-all rounded-l-lg "
-          onClick={() => logout(navigate)}
+          onClick={() => logout(navigate, dispatch)}
         >
           <Logout />
           <p>Logout</p>

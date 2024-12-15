@@ -1,12 +1,14 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import validator from "validator";
+import { addUser } from "../config/redux/userSlice";
 
 async function signInUser(
   usernameRef,
   passwordRef,
   setInputErrorMsg,
-  navigate
+  navigate,
+  dispatch
 ) {
   const usernameOrEmail = usernameRef.current.value;
   const password = passwordRef.current.value;
@@ -27,12 +29,15 @@ async function signInUser(
     );
 
     if (result.data.success) {
+      console.log(result.data.data);
+      dispatch(addUser(result.data.data));
+      localStorage.setItem("isLoggedIn", result.data.data.email);
       navigate("/dashboard");
     }
   } catch (error) {
+    console.error(error);
     setInputErrorMsg(error.response.data.message);
     toast.error(error.response.data.message);
-    console.error(error);
   }
 }
 

@@ -22,7 +22,7 @@ const Header = ({
     </div>
     <div className="pl-8">
       <h2 className="text-2xl font-semibold">
-        {filterContent === "Dashboard" ? "All Notes" : filterContent}
+        {filterContent === "My Brain" ? "All Notes" : filterContent}
       </h2>
     </div>
     <div className="flex flex-col-reverse sm:flex-row gap-2 p-4">

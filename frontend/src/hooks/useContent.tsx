@@ -17,6 +17,7 @@ const useContent = (path: string) => {
           withCredentials: true,
         }
       );
+      console.log("API CALL")
       if (result.data.success) {
         setContent(result.data.data);
         toast.success("content fetched successfully");
@@ -32,6 +33,7 @@ const useContent = (path: string) => {
   useEffect(() => {
     getContent();
   }, []);
+
   return content;
 };
 

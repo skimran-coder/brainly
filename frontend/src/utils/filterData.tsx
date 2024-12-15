@@ -1,6 +1,6 @@
 // Filter Content Data
 function filterData(filter, data, setDataToRender) {
-  if (filter === "Dashboard" && data) {
+  if (filter === "My Brain" && data) {
     setDataToRender(data);
   }
   if (filter === "Videos" && data) {

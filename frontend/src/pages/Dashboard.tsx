@@ -14,12 +14,12 @@ const Dashboard = () => {
   // State Management
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [filterContent, setFilterContent] = useState("Dashboard");
+  const [filterContent, setFilterContent] = useState("My Brain");
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [dataToRender, setDataToRender] = useState([]);
 
-  // Fetch Content
-  const data = useContent("/content");
+  const content = useContent("/content");
+
+  const [dataToRender, setDataToRender] = useState(content);
 
   // Modal Handlers
   const toggleAddContentModal = () => setIsModalOpen((prev) => !prev);
@@ -32,8 +32,8 @@ const Dashboard = () => {
   };
 
   useEffect(
-    () => filterData(filterContent, data, setDataToRender),
-    [filterContent, data]
+    () => filterData(filterContent, content, setDataToRender),
+    [filterContent, content]
   );
 
   // JSX Render

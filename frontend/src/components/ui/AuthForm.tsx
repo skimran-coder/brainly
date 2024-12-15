@@ -4,6 +4,7 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import signUpUser from "../../utils/signUpUser";
 import signInUser from "../../utils/signInUser";
+import { useDispatch } from "react-redux";
 
 interface authFormPropsType {
   isSignUpPage: boolean;
@@ -17,6 +18,7 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
   const passwordRef = useRef();
   const [isHidden, setIsHidden] = useState(true);
   const [inputErrorMsg, setInputErrorMsg] = useState("");
+  const dispatch = useDispatch();
 
   function switchIsHidden() {
     setIsHidden((curr) => !curr);
@@ -101,7 +103,8 @@ const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
                     usernameRef,
                     passwordRef,
                     setInputErrorMsg,
-                    navigate
+                    navigate,
+                    dispatch
                   )
           }
         />
