@@ -112,7 +112,7 @@ const EditContentModal = ({
 
   return (
     isEditModalOpen && (
-      <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden">
+      <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden z-50">
         <div className="flex w-full h-full justify-center items-center">
           <div className="w-96 bg-white  flex flex-col rounded-md">
             <div className="p-4 flex justify-between items-center">
@@ -148,7 +148,7 @@ const EditContentModal = ({
                 ))}
               </div>
               <InputBox
-                placeholder="tags"
+                placeholder="Tags (seperated by comma ',' )"
                 reference={tagRef}
                 val={currTags}
                 onChangeHandler={cahngeTags}

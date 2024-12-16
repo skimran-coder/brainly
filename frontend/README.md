@@ -1,4 +1,4 @@
 # Todo
 
-- pinterest layout
 - document view
+- fixed sidebar

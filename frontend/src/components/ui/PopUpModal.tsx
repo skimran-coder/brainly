@@ -28,7 +28,7 @@ const PopUpModal = ({
   const dispatch = useDispatch();
 
   return (
-    <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden">
+    <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden z-50">
       <div className="flex  w-full h-full  justify-center items-center">
         <div
           className={`${

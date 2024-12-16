@@ -24,6 +24,18 @@ interface cardProps {
   _id: string;
 }
 
+async function shareUrl(title, link) {
+  try {
+    await navigator.share({
+      text: title,
+      url: link,
+    });
+  } catch (error) {
+    toast.error(error.message || "Error sharing content");
+    console.error(error);
+  }
+}
+
 export const Card = ({
   title,
   type,
@@ -57,7 +69,7 @@ export const Card = ({
   const dateCreated = convertDate(createdAt);
 
   return (
-    <div className={`min-h-72 h-fit p-8 bg-white  shadow-md border rounded-md`}>
+    <div className={` p-8 bg-white  shadow-md border rounded-md`}>
       <EditContentModal
         isEditModalOpen={isEditModalOpen}
         closeEditModal={closeEditModal}
@@ -97,7 +109,7 @@ export const Card = ({
           >
             <Delete />
           </div>
-          <div className="cursor-pointer">
+          <div className="cursor-pointer" onClick={() => shareUrl(title, link)}>
             <Share />
           </div>
         </div>
