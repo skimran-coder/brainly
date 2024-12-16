@@ -6,15 +6,24 @@ import { contentTypes, InputBox, selectType } from "../../config/config";
 import CirclePlus from "../Icons/CirclePlus";
 import createContent from "../../utils/createContent";
 import { ta } from "date-fns/locale";
+import { useDispatch } from "react-redux";
 
 axios.defaults.withCredentials = true;
 
 interface AddContentModalProps {
   isModalOpen: boolean;
   onModalClose: () => void;
+  addItem: () => void;
 }
 
-function addContent(titleRef, linkRef, tagRef, isSelected, onModalClose) {
+function addContent(
+  titleRef,
+  linkRef,
+  tagRef,
+  isSelected,
+  onModalClose,
+  dispatch
+) {
   const inputTitle = titleRef.current.value;
   const inputLink = linkRef.current.value;
   const tags = tagRef.current.value;
@@ -22,13 +31,19 @@ function addContent(titleRef, linkRef, tagRef, isSelected, onModalClose) {
     .trim()
     .split(",")
     .filter((tag) => tag);
-  console.log(tagsArr);
   const contentType = Object.keys(isSelected).find(
     (key) => isSelected[key] === true
   );
 
   if (inputTitle && inputLink && contentType) {
-    createContent(inputTitle, inputLink, contentType, tagsArr, onModalClose);
+    createContent(
+      inputTitle,
+      inputLink,
+      contentType,
+      tagsArr,
+      onModalClose,
+      dispatch
+    );
   }
 }
 
@@ -39,6 +54,7 @@ const AddContentModal = ({
   const titleRef = useRef();
   const linkRef = useRef();
   const tagRef = useRef();
+  const dispatch = useDispatch();
 
   const [isSelected, setIsSelected] = useState({
     YouTube: true,
@@ -96,7 +112,8 @@ const AddContentModal = ({
                     linkRef,
                     tagRef,
                     isSelected,
-                    onModalClose
+                    onModalClose,
+                    dispatch
                   )
                 }
               ></Button>

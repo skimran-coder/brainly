@@ -5,6 +5,7 @@ import Delete from "../Icons/Delete";
 import deleteContentOne from "../../utils/deleteContentOne";
 import shareBrain from "../../utils/shareBrain";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 interface PopUpModalProps {
   isShareModal?: boolean;
@@ -24,7 +25,7 @@ const PopUpModal = ({
   contentId,
 }: PopUpModalProps) => {
   const location = useLocation();
-  console.log(location);
+  const dispatch = useDispatch();
 
   return (
     <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden">
@@ -68,7 +69,7 @@ const PopUpModal = ({
                 type="primary"
                 size="md"
                 beforeIcon={<Delete />}
-                onClickHandler={() => deleteContentOne(contentId!, closeModal)}
+                onClickHandler={() => deleteContentOne(contentId!, closeModal, dispatch)}
               />
             )}
           </div>

@@ -4,6 +4,8 @@ import { contentTypes, InputBox, selectType } from "../../config/config";
 import Button from "./Button";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateContent } from "../../config/redux/contentSlice";
 
 axios.defaults.withCredentials = true;
 
@@ -13,7 +15,8 @@ function editContent(
   isSelected,
   tagRef,
   closeEditModal,
-  contentId
+  contentId,
+  dispatch
 ) {
   const inputTitle = titleRef.current.value;
   const inputLink = linkRef.current.value;
@@ -33,7 +36,8 @@ function editContent(
       contentType,
       tagsArr,
       closeEditModal,
-      contentId
+      contentId,
+      dispatch
     );
   }
 
@@ -43,7 +47,8 @@ function editContent(
     contentType,
     tagsArr,
     closeEditModal,
-    contentId
+    contentId,
+    dispatch
   ) {
     const result = await axios.put(
       `http://localhost:7777/api/v1/content/${contentId}`,
@@ -61,6 +66,7 @@ function editContent(
       }
     );
     if (result.data.success) {
+      dispatch(updateContent(result.data.data));
       closeEditModal();
       toast.success("content updated successfully!", {
         autoClose: 3000, // 3 seconds
@@ -81,6 +87,7 @@ const EditContentModal = ({
   const titleRef = useRef();
   const linkRef = useRef();
   const tagRef = useRef();
+  const dispatch = useDispatch();
 
   const [currTitle, setCurrTitle] = useState(title);
   const [currLink, setCurrLink] = useState(link);
@@ -157,7 +164,8 @@ const EditContentModal = ({
                     isSelected,
                     tagRef,
                     closeEditModal,
-                    contentId
+                    contentId,
+                    dispatch
                   )
                 }
               ></Button>

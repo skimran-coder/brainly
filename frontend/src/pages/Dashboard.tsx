@@ -9,6 +9,7 @@ import { shareModalText, shareModalTitle } from "../config/config";
 import Header from "../components/ui/Header";
 import ContentSection from "../components/ui/ContentSection";
 import filterData from "../utils/filterData";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   // State Management
@@ -17,11 +18,18 @@ const Dashboard = () => {
   const [filterContent, setFilterContent] = useState("My Brain");
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-  const content = useContent("/content");
+  // Fetch content using custom hook
+  useContent("/content");
 
+  // Get content from Redux store
+  const content = useSelector((state) => state.content.content);
+
+  // Filtered content for rendering
   const [dataToRender, setDataToRender] = useState(content);
 
-  console.log(dataToRender)
+  useEffect(() => {
+    setDataToRender(content); // Update UI state when Redux content changes
+  }, [content]);
 
   // Modal Handlers
   const toggleAddContentModal = () => setIsModalOpen((prev) => !prev);
@@ -73,7 +81,6 @@ const Dashboard = () => {
           onShareBrainClick={toggleShareModal}
           filterContent={filterContent}
         />
-
 
         <ContentSection dataToRender={dataToRender} />
       </div>

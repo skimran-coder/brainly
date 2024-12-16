@@ -1,10 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { setContentState } from "../config/redux/contentSlice";
 axios.defaults.withCredentials = true;
 
 const useContent = (path: string) => {
-  const [content, setContent] = useState();
+  const dispatch = useDispatch();
 
   async function getContent() {
     try {
@@ -17,23 +19,22 @@ const useContent = (path: string) => {
           withCredentials: true,
         }
       );
+
       if (result.data.success) {
-        setContent(result.data.data);
-        toast.success("content fetched successfully");
+        dispatch(setContentState(result.data.data)); // Dispatch directly
+        toast.success("Content fetched successfully");
       } else {
-        toast.warning("Add atleast one content!");
+        toast.warning("Add at least one content!");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Error fetching content");
       console.error(error);
     }
   }
 
   useEffect(() => {
-    getContent();
-  }, []);
-
-  return content;
+    getContent(); // Fetch content on mount
+  }, [path]); // Only run when the `path` changes
 };
 
 export default useContent;

@@ -1,13 +1,14 @@
 import axios from "axios";
-import { ta } from "date-fns/locale";
 import { toast } from "react-toastify";
+import { addContent } from "../config/redux/contentSlice";
 
 async function createContent(
   inputTitle,
   inputLink,
   contentType,
   tagsArr,
-  onModalClose
+  onModalClose,
+  dispatch
 ) {
   try {
     const result = await axios.post(
@@ -26,6 +27,7 @@ async function createContent(
       }
     );
     if (result.data.success) {
+      dispatch(addContent(result.data.data));
       onModalClose();
       toast.success("content added successfully!", {
         autoClose: 3000, // 3 seconds

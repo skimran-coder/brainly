@@ -1,3 +1,4 @@
 # Todo
 
-- re-render on crud
+- pinterest layout
+- document view

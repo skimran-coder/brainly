@@ -80,7 +80,9 @@ export const Card = ({
 
       <div className="flex justify-between items-center gap-6">
         <div className="flex gap-2 items-center justify-center text-text-secondary">
-          <div className="min-w-fit">{icon[type]}</div>
+          <div className="min-w-fit">
+            <a href={link}>{icon[type]}</a>
+          </div>
         </div>
         <div className="flex  min-w-fit gap-4 items-center text-text-secondary">
           <div
@@ -124,7 +126,7 @@ export const Card = ({
       <div className=" flex flex-wrap py-4">
         {tags?.map((t) => (
           <span
-            key={t}
+            key={t + Math.random()}
             className="m-1 px-3 py-1 rounded-full bg-bg-tag text-text-secondaryBtn"
           >
             #{t}

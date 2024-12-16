@@ -115,10 +115,3 @@ export const logOutUser = (req: Request, res: Response) => {
     });
   }
 };
-
-export const isLoggedIn = (req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message: "user is logged in",
-  });
-};

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { removeContent } from "../config/redux/contentSlice";
 
-async function deleteContentOne(_id: string, closeModal: () => void) {
+async function deleteContentOne(_id: string, closeModal: () => void, dispatch) {
   try {
     const result = await axios.delete(
       `${import.meta.env.VITE_BACKEND_URL}/content/${_id}`,
@@ -14,6 +15,7 @@ async function deleteContentOne(_id: string, closeModal: () => void) {
     );
 
     if (result.data.success) {
+      dispatch(removeContent(_id));
       toast.error("content deleted successfully!");
       closeModal();
     }
