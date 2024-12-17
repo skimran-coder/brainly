@@ -134,6 +134,13 @@ export const Card = ({
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>
         )}
+        {type === "Document" && link && (
+          <div>
+            <a href={link} className="text-blue-400 underline cursor-pointer">
+              Original Url
+            </a>
+          </div>
+        )}
       </div>
 
       <div className=" flex flex-wrap py-4">

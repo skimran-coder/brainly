@@ -35,7 +35,7 @@ function addContent(
     (key) => isSelected[key] === true
   );
 
-  if (inputTitle && inputLink && contentType) {
+  if (inputTitle && contentType) {
     createContent(
       inputTitle,
       inputLink,

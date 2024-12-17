@@ -74,7 +74,7 @@ const Dashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="bg-bg-main md:absolute md:right-0 md:w-5/6 mx-auto w-full flex justify-end flex-col">
+      <div className="bg-bg-main md:absolute md:right-0 md:w-3/4 lg:w-5/6 mx-auto w-full flex justify-end flex-col">
         <Header
           onBarsClick={() => setIsSidebarOpen(true)}
           onAddContentClick={toggleAddContentModal}

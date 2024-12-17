@@ -67,6 +67,10 @@ function editContent(
     );
     if (result.data.success) {
       dispatch(updateContent(result.data.data));
+      if (window.twttr && window.twttr.widgets) {
+        console.log("re run script")
+        window.twttr.widgets.load();
+      }
       closeEditModal();
       toast.success("content updated successfully!", {
         autoClose: 3000, // 3 seconds

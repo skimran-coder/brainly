@@ -28,6 +28,10 @@ async function createContent(
     );
     if (result.data.success) {
       dispatch(addContent(result.data.data));
+      if (window.twttr && window.twttr.widgets) {
+        console.log("re run script")
+        window.twttr.widgets.load();
+      }
       onModalClose();
       toast.success("content added successfully!", {
         autoClose: 3000, // 3 seconds

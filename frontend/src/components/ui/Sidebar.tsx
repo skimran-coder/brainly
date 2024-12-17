@@ -53,7 +53,7 @@ const Sidebar = ({
           : "hidden"
       }`}
     >
-      <div className="pt-4 pl-1 lg:pl-8 sm:pl-4 flex items-center justify-between gap-2 pb-8 md:pb-16">
+      <div className="pt-4 pl-1 lg:pl-6 sm:pl-4 flex items-center justify-between gap-2 pb-8 md:pb-16">
         <AppTitle />
         {isSidebarOpen && (
           <div className="" onClick={() => setIsSidebarOpen(false)}>
@@ -62,7 +62,7 @@ const Sidebar = ({
         )}
       </div>
 
-      <div className="flex flex-col gap-6 sm:pl-4 md:pl-0 lg:pl-8">
+      <div className="flex flex-col gap-6 sm:pl-4 md:pl-0 lg:pl-6">
         {sideItems.map(({ name, icon }) => (
           <ul
             key={name}
