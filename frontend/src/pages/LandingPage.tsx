@@ -29,15 +29,6 @@ const LandingPage = () => {
         size="lg"
         onClickHandler={redirectToDashboard}
       />
-
-      {/* Illustration Section */}
-      {/* <div className="mt-12 flex justify-center items-center">
-        <img
-          src="/assets/hero-illustration.svg"
-          alt="Hero Illustration"
-          className="w-full max-w-lg"
-        />
-      </div> */}
     </div>
   );
 };

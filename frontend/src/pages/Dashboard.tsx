@@ -10,6 +10,8 @@ import Header from "../components/ui/Header";
 import ContentSection from "../components/ui/ContentSection";
 import filterData from "../utils/filterData";
 import { useSelector } from "react-redux";
+import { RootState } from "../config/redux/store";
+import { Content } from "../config/redux/contentSlice";
 
 const Dashboard = () => {
   // State Management
@@ -22,10 +24,10 @@ const Dashboard = () => {
   useContent("/content");
 
   // Get content from Redux store
-  const content = useSelector((state) => state.content.content);
+  const content = useSelector((state: RootState) => state.content.content);
 
   // Filtered content for rendering
-  const [dataToRender, setDataToRender] = useState(content);
+  const [dataToRender, setDataToRender] = useState<Content[]>(content);
 
   useEffect(() => {
     setDataToRender(content); // Update UI state when Redux content changes

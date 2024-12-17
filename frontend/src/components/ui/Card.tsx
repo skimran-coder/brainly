@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Share from "../Icons/Share";
 import Delete from "../Icons/Delete";
 import YouTube from "../Icons/YouTube";
@@ -18,20 +18,20 @@ axios.defaults.withCredentials = true;
 interface cardProps {
   title: string;
   link: string;
-  type: "YouTube" | "Twitter/X" | "Document";
+  type: string;
   tags?: string[];
   createdAt: string;
   _id: string;
 }
 
-async function shareUrl(title, link) {
+async function shareUrl(title: string, link: string) {
   try {
     await navigator.share({
       text: title,
       url: link,
     });
   } catch (error) {
-    toast.error(error.message || "Error sharing content");
+    toast.error((error as Error).message || "Error sharing content");
     console.error(error);
   }
 }
@@ -44,11 +44,19 @@ export const Card = ({
   createdAt,
   _id,
 }: cardProps) => {
-  const icon = {
+  const icon: {
+    [key: string]: JSX.Element;
+    YouTube: JSX.Element;
+    "Twitter/X": JSX.Element;
+    Document: JSX.Element;
+  } = {
     YouTube: <YouTube />,
     "Twitter/X": <Twitter />,
     Document: <Document />,
   };
+
+  const key = type;
+  const iconToRender = icon[key];
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -61,7 +69,7 @@ export const Card = ({
     setIsEditModalOpen(false);
   }
 
-  function convertDate(dateStr) {
+  function convertDate(dateStr: string) {
     const str = formatDistance(new Date(dateStr), new Date());
     return str;
   }
@@ -93,7 +101,7 @@ export const Card = ({
       <div className="flex justify-between items-center gap-6">
         <div className="flex gap-2 items-center justify-center text-text-secondary">
           <div className="min-w-fit">
-            <a href={link}>{icon[type]}</a>
+            <a href={link}>{iconToRender}</a>
           </div>
         </div>
         <div className="flex  min-w-fit gap-4 items-center text-text-secondary">

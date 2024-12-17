@@ -1,5 +1,11 @@
+import { Content } from "../config/redux/contentSlice";
+
 // Filter Content Data
-function filterData(filter, data, setDataToRender) {
+function filterData(
+  filter: string,
+  data: Content[],
+  setDataToRender: React.Dispatch<React.SetStateAction<Content[]>>
+) {
   if (filter === "My Brain" && data) {
     setDataToRender(data);
   }

@@ -1,7 +1,14 @@
 import axios from "axios";
+import { Location } from "react-router-dom";
 import { toast } from "react-toastify";
 
-async function shareBrain(share: boolean, closeModal: () => void, location) {
+interface shareBrainProps {
+  share: boolean;
+  closeModal: () => void;
+  location?: Location;
+}
+
+async function shareBrain({ share, closeModal, location }: shareBrainProps) {
   const result = await axios.post(
     `${import.meta.env.VITE_BACKEND_URL}/brain/share`,
     {
@@ -19,6 +26,9 @@ async function shareBrain(share: boolean, closeModal: () => void, location) {
     toast.success("Brain shared successfully!");
 
     const Url = window.location.href;
+    if (!location?.pathname) {
+      return;
+    }
     const { pathname } = location;
     const hash = result.data.data.hash;
 

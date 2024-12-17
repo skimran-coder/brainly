@@ -1,7 +1,10 @@
-import React, { useState } from "react";
 import validator from "validator";
 
-const validateUserInput = (username, email, password) => {
+const validateUserInput = (
+  username: string,
+  email: string,
+  password: string
+) => {
   let errorMsg = "";
 
   if (!validator.isAlphanumeric(username)) {

@@ -2,16 +2,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import validator from "validator";
 import { addUser } from "../config/redux/userSlice";
+import { AppDispatch } from "../config/redux/store";
+import { NavigateFunction } from "react-router-dom";
 
 async function signInUser(
-  usernameRef,
-  passwordRef,
-  setInputErrorMsg,
-  navigate,
-  dispatch
+  usernameRef: React.RefObject<HTMLInputElement>,
+  passwordRef: React.RefObject<HTMLInputElement>,
+  setInputErrorMsg: React.Dispatch<React.SetStateAction<string>>,
+  navigate: NavigateFunction,
+  dispatch: AppDispatch
 ) {
-  const usernameOrEmail = usernameRef.current.value;
-  const password = passwordRef.current.value;
+  const usernameOrEmail = usernameRef.current?.value ?? "";
+  const password = passwordRef.current?.value ?? "";
 
   if (!validator.isStrongPassword(password)) {
     setInputErrorMsg("password must be strong.");
@@ -36,8 +38,9 @@ async function signInUser(
     }
   } catch (error) {
     console.error(error);
+    // @ts-expect-error "need to figure out type"
     setInputErrorMsg(error.response.data.message);
-    toast.error(error.response.data.message);
+    toast.error((error as Error).message || "Error signing in");
   }
 }
 

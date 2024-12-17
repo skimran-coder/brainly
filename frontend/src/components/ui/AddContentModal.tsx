@@ -1,32 +1,33 @@
 import Button from "./Button";
 import Close from "../Icons/Close";
-import { useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import axios from "axios";
-import { contentTypes, InputBox, selectType } from "../../config/config";
+import { InputBox } from "../../config/config";
+import { contentTypes } from "../../config/contentTypes";
 import CirclePlus from "../Icons/CirclePlus";
 import createContent from "../../utils/createContent";
-import { ta } from "date-fns/locale";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../config/redux/store";
 
 axios.defaults.withCredentials = true;
 
 interface AddContentModalProps {
   isModalOpen: boolean;
   onModalClose: () => void;
-  addItem: () => void;
+  addItem?: () => void;
 }
 
 function addContent(
-  titleRef,
-  linkRef,
-  tagRef,
-  isSelected,
-  onModalClose,
-  dispatch
+  titleRef: RefObject<HTMLInputElement>,
+  linkRef: RefObject<HTMLInputElement>,
+  tagRef: RefObject<HTMLInputElement>,
+  isSelected: Record<string, boolean>,
+  onModalClose: () => void,
+  dispatch: AppDispatch
 ) {
-  const inputTitle = titleRef.current.value;
-  const inputLink = linkRef.current.value;
-  const tags = tagRef.current.value;
+  const inputTitle = titleRef.current?.value ?? "";
+  const inputLink = linkRef.current?.value ?? "";
+  const tags = tagRef.current?.value ?? "";
   const tagsArr = tags
     .trim()
     .split(",")
@@ -51,16 +52,31 @@ const AddContentModal = ({
   isModalOpen,
   onModalClose,
 }: AddContentModalProps) => {
-  const titleRef = useRef();
-  const linkRef = useRef();
-  const tagRef = useRef();
+  const titleRef = useRef<HTMLInputElement>(null);
+  const linkRef = useRef<HTMLInputElement>(null);
+  const tagRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
-  const [isSelected, setIsSelected] = useState({
+  interface IsSelected {
+    [key: string]: boolean;
+  }
+
+  const [isSelected, setIsSelected] = useState<IsSelected>({
     YouTube: true,
     "Twitter/X": false,
     Document: false,
   });
+
+  function switchType(e: React.MouseEvent<HTMLButtonElement>) {
+    const selected = e.currentTarget.innerText;
+    setIsSelected((curr) => {
+      // Update state to set the selected key to true, and others to false
+      return Object.keys(curr).reduce((newState, key) => {
+        newState[key] = key === selected; // True for selected, false for others
+        return newState;
+      }, {} as IsSelected);
+    });
+  }
 
   return (
     isModalOpen && (
@@ -90,7 +106,7 @@ const AddContentModal = ({
                     size="sm"
                     beforeIcon={icon}
                     isSelected={isSelected}
-                    onClickHandler={(e) => selectType(e, setIsSelected)}
+                    onClickHandler={switchType}
                     key={name}
                   />
                 ))}

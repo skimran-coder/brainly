@@ -27,7 +27,7 @@ const useContent = (path: string) => {
         toast.warning("Add at least one content!");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Error fetching content");
+      toast.error((error as Error).message || "Error fetching content");
       console.error(error);
     }
   }

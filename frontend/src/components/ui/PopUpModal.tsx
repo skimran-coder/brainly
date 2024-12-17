@@ -51,14 +51,25 @@ const PopUpModal = ({
                   size="md"
                   type="secondary"
                   beforeIcon={<Delete />}
-                  onClickHandler={() => shareBrain(false, closeModal)}
+                  onClickHandler={() =>
+                    shareBrain({
+                      share: true,
+                      closeModal,
+                    })
+                  }
                 />
                 <Button
                   name="Share Brain"
                   size="md"
                   type="primary"
                   beforeIcon={<Copy />}
-                  onClickHandler={() => shareBrain(true, closeModal, location)}
+                  onClickHandler={() =>
+                    shareBrain({
+                      share: true,
+                      closeModal,
+                      location,
+                    })
+                  }
                 />
               </div>
             )}
@@ -69,7 +80,9 @@ const PopUpModal = ({
                 type="primary"
                 size="md"
                 beforeIcon={<Delete />}
-                onClickHandler={() => deleteContentOne(contentId!, closeModal, dispatch)}
+                onClickHandler={() =>
+                  deleteContentOne(contentId!, closeModal, dispatch)
+                }
               />
             )}
           </div>

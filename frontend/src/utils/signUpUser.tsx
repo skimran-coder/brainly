@@ -3,15 +3,15 @@ import validateUserInput from "./validateUserInput";
 import { toast } from "react-toastify";
 
 async function signUpUser(
-  usernameRef,
-  emailRef,
-  passwordRef,
-  setInputErrorMsg,
-  switchTab
+  usernameRef: React.RefObject<HTMLInputElement>,
+  emailRef: React.RefObject<HTMLInputElement>,
+  passwordRef: React.RefObject<HTMLInputElement>,
+  setInputErrorMsg: React.Dispatch<React.SetStateAction<string>>,
+  switchTab: () => void
 ) {
-  const username = usernameRef.current.value;
-  const email = emailRef.current.value;
-  const password = passwordRef.current.value;
+  const username = usernameRef.current?.value ?? "";
+  const email = emailRef.current?.value ?? "";
+  const password = passwordRef.current?.value ?? "";
 
   const errorMsg = validateUserInput(username, email, password);
 
@@ -34,9 +34,10 @@ async function signUpUser(
       switchTab();
     }
   } catch (error) {
-    setInputErrorMsg(error.response.data.message);
-    toast.error(error.response.data.message);
     console.error(error);
+    // @ts-expect-error "need to figure out type"
+    setInputErrorMsg(error.response.data.message);
+    toast.error((error as Error).message || "Error signing up");
   }
 }
 

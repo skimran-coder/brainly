@@ -1,14 +1,25 @@
 import { useEffect, useRef } from "react";
 import { Card } from "./Card";
 import Macy from "macy";
+import { Content } from "../../config/redux/contentSlice";
 
-const ContentSection = ({ dataToRender }) => {
-  const containerRef = useRef();
-  const macyInstanceRef = useRef(null);
+interface ContentSectionProps {
+  dataToRender: Content[];
+}
+
+interface MacyInstance {
+  recalculate: (waitForImages?: boolean) => void;
+  runOnImageLoad: (callback: () => void, waitForImages?: boolean) => void;
+  remove: () => void;
+}
+
+const ContentSection = ({ dataToRender }: ContentSectionProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const macyInstanceRef = useRef<MacyInstance | null>(null);
 
   useEffect(() => {
     // Initialize Macy only once
-    if (!macyInstanceRef.current) {
+    if (containerRef.current && !macyInstanceRef.current) {
       macyInstanceRef.current = Macy({
         container: containerRef.current,
         trueOrder: false,
@@ -25,8 +36,15 @@ const ContentSection = ({ dataToRender }) => {
         },
       });
 
+      if (!macyInstanceRef.current) {
+        return;
+      }
+
       // Run recalculation after images load
       macyInstanceRef.current.runOnImageLoad(function () {
+        if (!macyInstanceRef.current) {
+          return;
+        }
         macyInstanceRef.current.recalculate(true);
       }, true);
     }
@@ -46,7 +64,10 @@ const ContentSection = ({ dataToRender }) => {
   }, [dataToRender]);
 
   return (
-    <div ref={containerRef} className="bg-bg-main my-4  ml-4 mr-8 gap-4 p-4 pr-8">
+    <div
+      ref={containerRef}
+      className="bg-bg-main my-4  ml-4 mr-8 gap-4 p-4 pr-8"
+    >
       {dataToRender.length > 0 &&
         dataToRender.map(({ title, link, type, _id, createdAt, tags }) => (
           <Card

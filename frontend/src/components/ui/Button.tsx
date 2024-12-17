@@ -6,11 +6,11 @@ interface buttonProps {
   size?: "lg" | "md" | "sm";
   beforeIcon?: ReactElement;
   isSelected?: {
-    YouTube: boolean;
-    "Twitter/X": boolean;
-    Document: boolean;
+    YouTube?: boolean;
+    "Twitter/X"?: boolean;
+    Document?: boolean;
   };
-  onClickHandler?: (e) => void;
+  onClickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = ({
@@ -38,6 +38,7 @@ const Button = ({
   return (
     <button
       className={`${
+        // @ts-expect-error "will fix the type issue"
         !isSelected?.[name]
           ? styleType[type || "primary"]
           : styleType["primary"]

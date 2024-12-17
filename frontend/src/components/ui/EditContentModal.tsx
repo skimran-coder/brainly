@@ -1,31 +1,38 @@
-import React, { useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import Close from "../Icons/Close";
-import { contentTypes, InputBox, selectType } from "../../config/config";
+import { InputBox } from "../../config/config";
+import { contentTypes } from "../../config/contentTypes";
 import Button from "./Button";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateContent } from "../../config/redux/contentSlice";
+import { AppDispatch } from "../../config/redux/store";
 
 axios.defaults.withCredentials = true;
 
 function editContent(
-  titleRef,
-  linkRef,
-  isSelected,
-  tagRef,
-  closeEditModal,
-  contentId,
-  dispatch
+  titleRef: RefObject<HTMLInputElement>,
+  linkRef: RefObject<HTMLInputElement>,
+  isSelected: {
+    YouTube: boolean;
+    "Twitter/X": boolean;
+    Document: boolean;
+  },
+  tagRef: RefObject<HTMLInputElement>,
+  closeEditModal: () => void,
+  contentId: string,
+  dispatch: AppDispatch
 ) {
-  const inputTitle = titleRef.current.value;
-  const inputLink = linkRef.current.value;
-  const tags = tagRef.current.value;
-  const tagsArr = tags
+  const inputTitle: string = titleRef.current?.value ?? "";
+  const inputLink: string = linkRef.current?.value ?? "";
+  const tags = tagRef.current?.value ?? "";
+  const tagsArr: string[] = tags
     .trim()
     .split(",")
-    .filter((tag) => tag);
+    .filter((tag: string) => tag);
   const contentType = Object.keys(isSelected).find(
+    // @ts-expect-error "will fix"
     (key) => isSelected[key] === true
   );
 
@@ -42,13 +49,13 @@ function editContent(
   }
 
   async function createContent(
-    inputTitle,
-    inputLink,
-    contentType,
-    tagsArr,
-    closeEditModal,
-    contentId,
-    dispatch
+    inputTitle: string,
+    inputLink: string,
+    contentType: string,
+    tagsArr: string[],
+    closeEditModal: () => void,
+    contentId: string,
+    dispatch: AppDispatch
   ) {
     const result = await axios.put(
       `http://localhost:7777/api/v1/content/${contentId}`,
@@ -67,8 +74,9 @@ function editContent(
     );
     if (result.data.success) {
       dispatch(updateContent(result.data.data));
+      // @ts-expect-error "need to make a globals.d.ts"
       if (window.twttr && window.twttr.widgets) {
-        console.log("re run script")
+        // @ts-expect-error "need to make a globals.d.ts"
         window.twttr.widgets.load();
       }
       closeEditModal();
@@ -79,6 +87,16 @@ function editContent(
   }
 }
 
+interface editContentModalProps {
+  isEditModalOpen: boolean;
+  closeEditModal: () => void;
+  title: string;
+  link: string;
+  type: string;
+  tags: string[] | string | undefined;
+  contentId: string;
+}
+
 const EditContentModal = ({
   isEditModalOpen,
   closeEditModal,
@@ -87,32 +105,49 @@ const EditContentModal = ({
   type,
   tags,
   contentId,
-}) => {
-  const titleRef = useRef();
-  const linkRef = useRef();
-  const tagRef = useRef();
+}: editContentModalProps) => {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const linkRef = useRef<HTMLInputElement>(null);
+  const tagRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const [currTitle, setCurrTitle] = useState(title);
   const [currLink, setCurrLink] = useState(link);
   const [currTags, setCurrTags] = useState(tags);
 
-  function changeTitle(e) {
+  function changeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setCurrTitle(e.target.value);
   }
 
-  function changeLink(e) {
+  function changeLink(e: React.ChangeEvent<HTMLInputElement>) {
     setCurrLink(e.target.value);
   }
-  function cahngeTags(e) {
+  function changeTags(e: React.ChangeEvent<HTMLInputElement>) {
     setCurrTags(e.target.value);
   }
 
-  const [isSelected, setIsSelected] = useState({
+  interface IsSelected {
+    YouTube: boolean;
+    "Twitter/X": boolean;
+    Document: boolean;
+  }
+
+  const [isSelected, setIsSelected] = useState<IsSelected>({
     YouTube: type === "YouTube",
     "Twitter/X": type === "Twitter/X",
     Document: type === "Document",
   });
+
+  function switchType(e: React.MouseEvent<HTMLButtonElement>) {
+    const selected = e.currentTarget.innerText;
+    setIsSelected((curr) => {
+      // Update state to set the selected key to true, and others to false
+      return Object.keys(curr).reduce((newState, key) => {
+        newState[key as keyof IsSelected] = key === selected; // True for selected, false for others
+        return newState;
+      }, {} as IsSelected);
+    });
+  }
 
   return (
     isEditModalOpen && (
@@ -146,7 +181,7 @@ const EditContentModal = ({
                     size="sm"
                     beforeIcon={icon}
                     isSelected={isSelected}
-                    onClickHandler={(e) => selectType(e, setIsSelected)}
+                    onClickHandler={switchType}
                     key={name}
                   />
                 ))}
@@ -155,7 +190,7 @@ const EditContentModal = ({
                 placeholder="Tags (seperated by comma ',' )"
                 reference={tagRef}
                 val={currTags}
-                onChangeHandler={cahngeTags}
+                onChangeHandler={changeTags}
               />
               <Button
                 name="Update"

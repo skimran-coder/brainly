@@ -4,20 +4,27 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import Macy from "macy";
+import { RootState } from "../config/redux/store";
+
+interface MacyInstance {
+  recalculate: (waitForImages?: boolean) => void;
+  runOnImageLoad: (callback: () => void, waitForImages?: boolean) => void;
+  remove: () => void;
+}
 
 const SharedBrain = () => {
   const { hash } = useParams();
 
   useContent(`/brain/share/${hash}`);
 
-  const data = useSelector((state) => state.content.content);
+  const data = useSelector((state: RootState) => state.content.content);
 
-  const containerRef = useRef();
-  const macyInstanceRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const macyInstanceRef = useRef<MacyInstance | null>(null);
 
   useEffect(() => {
     // Initialize Macy only once
-    if (!macyInstanceRef.current) {
+    if (containerRef.current && !macyInstanceRef.current) {
       macyInstanceRef.current = Macy({
         container: containerRef.current,
         trueOrder: false,
@@ -34,8 +41,15 @@ const SharedBrain = () => {
         },
       });
 
+      if (!macyInstanceRef.current) {
+        return;
+      }
+
       // Run recalculation after images load
       macyInstanceRef.current.runOnImageLoad(function () {
+        if (!macyInstanceRef.current) {
+          return;
+        }
         macyInstanceRef.current.recalculate(true);
       }, true);
     }
@@ -58,7 +72,10 @@ const SharedBrain = () => {
     data.length > 0 && (
       <div>
         <div className="w-full text-center my-8 text-2xl font-semibold text-text-primary">
-          <span className="font-bold text-2xl">{data[0].userId.username}'s</span> Shared Collection
+          <span className="font-bold text-2xl">
+            {data[0].userId.username}'s
+          </span>{" "}
+          Shared Collection
         </div>
         <div
           ref={containerRef}

@@ -1,8 +1,13 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { removeContent } from "../config/redux/contentSlice";
+import { AppDispatch } from "../config/redux/store";
 
-async function deleteContentOne(_id: string, closeModal: () => void, dispatch) {
+async function deleteContentOne(
+  _id: string,
+  closeModal: () => void,
+  dispatch: AppDispatch
+) {
   try {
     const result = await axios.delete(
       `${import.meta.env.VITE_BACKEND_URL}/content/${_id}`,
@@ -20,7 +25,7 @@ async function deleteContentOne(_id: string, closeModal: () => void, dispatch) {
       closeModal();
     }
   } catch (error) {
-    toast.error(error.response.data.message);
+    toast.error((error as Error).message || "Error deleting content");
     console.error(error);
   }
 }

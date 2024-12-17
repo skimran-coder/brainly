@@ -1,17 +1,15 @@
-import Document from "../components/Icons/Document";
+import { ChangeEvent } from "react";
 import Eye from "../components/Icons/Eye";
 import EyeSlash from "../components/Icons/EyeSlash";
-import Twitter from "../components/Icons/Twitter";
-import YouTube from "../components/Icons/YouTube";
 
 interface inputBoxPropsType {
   placeholder: string;
   isHidden?: boolean;
   switchIsHidden?: () => void;
   isPassInput?: true;
-  reference?: any;
-  val?: string;
-  onChangeHandler?: () => void;
+  reference?: React.RefObject<HTMLInputElement>;
+  val?: string | string[];
+  onChangeHandler?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const InputBox = ({
@@ -44,33 +42,6 @@ export const InputBox = ({
     </div>
   );
 };
-
-export const contentTypes = [
-  {
-    name: "YouTube",
-    icon: <YouTube />,
-  },
-  {
-    name: "Twitter/X",
-    icon: <Twitter />,
-  },
-  {
-    name: "Document",
-    icon: <Document />,
-  },
-];
-
-export function selectType(e, setIsSelected) {
-  const selected = e.target.innerText; // The key that should be set to true
-
-  setIsSelected((curr) => {
-    // Update state to set the selected key to true, and others to false
-    return Object.keys(curr).reduce((newState, key) => {
-      newState[key] = key === selected; // True for selected, false for others
-      return newState;
-    }, {});
-  });
-}
 
 export const shareModalText = `Share your entire collection of notes, documents, tweets, and
               videos with others. They'll be able to import your content into

@@ -13,11 +13,11 @@ interface authFormPropsType {
 
 const AuthForm = ({ isSignUpPage, switchTab }: authFormPropsType) => {
   const navigate = useNavigate();
-  const usernameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [isHidden, setIsHidden] = useState(true);
-  const [inputErrorMsg, setInputErrorMsg] = useState("");
+  const [inputErrorMsg, setInputErrorMsg] = useState<string>("");
   const dispatch = useDispatch();
 
   function switchIsHidden() {
