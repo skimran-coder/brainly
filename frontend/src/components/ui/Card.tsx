@@ -118,7 +118,7 @@ export const Card = ({
         <h2 className="text-text-primary pt-4">{title}</h2>
       </div>
       <div className="pt-4">
-        {type === "YouTube" ? (
+        {type === "YouTube" && (
           <iframe
             className="w-full aspect-video rounded-md"
             src={link.replace("watch?v=", "/embed/")}
@@ -128,7 +128,8 @@ export const Card = ({
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
-        ) : (
+        )}
+        {type === "Twitter/X" && (
           <blockquote className="twitter-tweet">
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>

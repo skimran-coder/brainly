@@ -47,9 +47,9 @@ const Sidebar = ({
 
   return (
     <div
-      className={`lg:w-1/5 md:w-1/4 sm:w-1/3 min-h-screen border border-text-secondary border-opacity-20 md:flex flex-col pl-4 transition-all ${
+      className={`lg:w-1/6 md:w-1/4 sm:w-1/3 min-h-screen border border-text-secondary border-opacity-20 md:flex flex-col pl-4 transition-all bg-white fixed ${
         isSidebarOpen
-          ? "flex absolute z-10  bg-white overflow-hidden"
+          ? "flex fixed z-50 bg-white overflow-hidden"
           : "hidden"
       }`}
     >
