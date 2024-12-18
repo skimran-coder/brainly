@@ -19,7 +19,7 @@ Second Brain is a modern full-stack application designed to help users store and
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Authentication:** JSON Web Tokens (JWT)
-- **Hosting:** Hosted on [platform, e.g., Vercel/Heroku/AWS] (update with the platform you're using).
+- **Hosting:** Hosted on vercel for frontend and render for server.
 
 ## How It Works
 
