@@ -12,6 +12,7 @@ import Edit from "../Icons/Edit";
 import EditContentModal from "./EditContentModal";
 import PopUpModal from "./PopUpModal";
 import { deleteModalText, deleteModalTitle } from "../../config/config";
+import validator from "validator";
 
 axios.defaults.withCredentials = true;
 
@@ -22,6 +23,7 @@ interface cardProps {
   tags?: string[];
   createdAt: string;
   _id: string;
+  isSharedBrain?: boolean;
 }
 
 async function shareUrl(title: string, link: string) {
@@ -43,6 +45,7 @@ export const Card = ({
   tags,
   createdAt,
   _id,
+  isSharedBrain,
 }: cardProps) => {
   const icon: {
     [key: string]: JSX.Element;
@@ -76,6 +79,8 @@ export const Card = ({
 
   const dateCreated = convertDate(createdAt);
 
+  const isUrl = validator.isURL(link);
+
   return (
     <div className={` p-8 bg-white  shadow-md border rounded-md`}>
       <EditContentModal
@@ -105,18 +110,22 @@ export const Card = ({
           </div>
         </div>
         <div className="flex  min-w-fit gap-4 items-center text-text-secondary">
-          <div
-            className="cursor-pointer"
-            onClick={() => setIsEditModalOpen(true)}
-          >
-            <Edit />
-          </div>
-          <div
-            className="cursor-pointer"
-            onClick={() => setIsDeleteModalOpen(true)}
-          >
-            <Delete />
-          </div>
+          {!isSharedBrain && (
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsEditModalOpen(true)}
+            >
+              <Edit />
+            </div>
+          )}
+          {!isSharedBrain && (
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              <Delete />
+            </div>
+          )}
           <div className="cursor-pointer" onClick={() => shareUrl(title, link)}>
             <Share />
           </div>
@@ -126,7 +135,7 @@ export const Card = ({
         <h2 className="text-text-primary pt-4">{title}</h2>
       </div>
       <div className="pt-4">
-        {type === "YouTube" && (
+        {type === "YouTube" && isUrl && (
           <iframe
             className="w-full aspect-video rounded-md"
             src={link.replace("watch?v=", "/embed/")}
@@ -137,18 +146,19 @@ export const Card = ({
             allowFullScreen
           ></iframe>
         )}
-        {type === "Twitter/X" && (
+        {type === "Twitter/X" && isUrl && (
           <blockquote className="twitter-tweet">
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>
         )}
-        {type === "Document" && link && (
-          <div>
-            <a href={link} className="text-blue-400 underline cursor-pointer">
-              Original Url
-            </a>
-          </div>
-        )}
+        {(type === "Document" && link) ||
+          (!isUrl && (
+            <div>
+              <a href={link} className="text-blue-400 underline cursor-pointer">
+                Original Url
+              </a>
+            </div>
+          ))}
       </div>
 
       <div className=" flex flex-wrap py-4">

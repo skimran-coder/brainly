@@ -90,6 +90,7 @@ const SharedBrain = () => {
               tags={tags}
               createdAt={createdAt}
               _id={_id}
+              isSharedBrain={true}
             />
           ))}
         </div>

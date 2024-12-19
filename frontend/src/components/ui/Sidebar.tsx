@@ -6,9 +6,11 @@ import Twitter from "../Icons/Twitter";
 import YouTube from "../Icons/YouTube";
 import { useNavigate } from "react-router-dom";
 import AppTitle from "./AppTitle";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import logout from "../../utils/logout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../config/redux/store";
+import Profile from "../Icons/Profile";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -23,6 +25,15 @@ const Sidebar = ({
   switchFilter,
   filterContent,
 }: SidebarProps) => {
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const content = useSelector((state: RootState) => state.content.content);
+  const username = content[0]?.userId.username;
+
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
+
   const sideItems = [
     {
       name: "My Brain",
@@ -60,7 +71,7 @@ const Sidebar = ({
         )}
       </div>
 
-      <div className="flex flex-col gap-6 sm:pl-4 md:pl-0 lg:pl-6">
+      <div className="flex flex-col gap-6 sm:pl-4 md:pl-0 lg:pl-6  mb-20">
         {sideItems.map(({ name, icon }) => (
           <ul
             key={name}
@@ -74,14 +85,25 @@ const Sidebar = ({
         ))}
       </div>
 
-      <div className="flex flex-col gap-6 sm:pl-4 lg:pl-8">
+      <div className="flex flex-col gap-6 sm:pl-4 md:pl-0 lg:pl-6 relative pb-24">
         <ul
-          className="flex gap-2 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 mt-20 transition-all rounded-l-lg "
-          onClick={() => logout(navigate, dispatch)}
+          className="flex gap-2 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 transition-all rounded-l-lg "
+          onClick={toggleProfile}
         >
-          <Logout />
-          <p>Logout</p>
+          <Profile />
+          {username && <p>{username}</p>}
         </ul>
+        {isProfileOpen && (
+          <ul className="absolute flex flex-col gap-2 top-8  bg-bg-main hover:bg-bg-tag shadow-md rounded-lg p-2">
+            <li
+              className="flex gap-1"
+              onClick={() => logout(navigate, dispatch)}
+            >
+              <Logout />
+              <p>Logout</p>
+            </li>
+          </ul>
+        )}
       </div>
     </div>
   );

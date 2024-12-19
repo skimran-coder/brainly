@@ -66,7 +66,7 @@ const ContentSection = ({ dataToRender }: ContentSectionProps) => {
   return (
     <div
       ref={containerRef}
-      className="bg-bg-main my-4  ml-4 mr-8 gap-4 p-4 pr-8"
+      className="bg-bg-main min-h-screen my-4  ml-4 mr-8 gap-4 p-4 pr-8"
     >
       {dataToRender.length > 0 &&
         dataToRender.map(({ title, link, type, _id, createdAt, tags }) => (

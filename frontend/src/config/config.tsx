@@ -26,7 +26,7 @@ export const InputBox = ({
       <input
         placeholder={placeholder}
         type={isHidden ? "password" : "text"}
-        className="border border-text-primary px-2 py-1 rounded-md w-full  "
+        className="border border-text-primary px-2 py-1 rounded-md w-full  cursor-text"
         ref={reference}
         value={val && val}
         onChange={onChangeHandler}

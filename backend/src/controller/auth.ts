@@ -75,15 +75,19 @@ export const signInUser = async (req: Request, res: Response) => {
       });
       return;
     }
+    console.log("signin endpoint");
 
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET!);
+
+    console.log(process.env.NODE_ENV === "production");
+    console.log(process.env.NODE_ENV === "production" ? "none" : "lax");
 
     res
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 15 * 24 * 60 * 60 * 1000,
       })
       .json({

@@ -12,6 +12,7 @@ import filterData from "../utils/filterData";
 import { useSelector } from "react-redux";
 import { RootState } from "../config/redux/store";
 import { Content } from "../config/redux/contentSlice";
+import Plus from "../components/Icons/Plus";
 
 const Dashboard = () => {
   // State Management
@@ -79,7 +80,6 @@ const Dashboard = () => {
       <div className="bg-bg-main md:absolute md:right-0 md:w-3/4 lg:w-5/6 mx-auto w-full flex justify-end flex-col">
         <Header
           onBarsClick={() => setIsSidebarOpen(true)}
-          onAddContentClick={toggleAddContentModal}
           onShareBrainClick={toggleShareModal}
           filterContent={filterContent}
         />
@@ -87,7 +87,14 @@ const Dashboard = () => {
         <ContentSection dataToRender={dataToRender} />
       </div>
 
-      <ToastContainer autoClose={5000} closeOnClick position="bottom-right" />
+      <button
+        className="fixed bottom-6 right-6 bg-bg-primaryBtn text-white p-2 md:p-4 rounded-md hover:bg-opacity-90 transition-all text-lg"
+        onClick={toggleAddContentModal}
+      >
+        <Plus />
+      </button>
+
+      <ToastContainer autoClose={5000} closeOnClick position="top-center" />
     </div>
   );
 };

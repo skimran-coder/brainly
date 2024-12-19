@@ -1,18 +1,15 @@
 import Bars from "../Icons/Bars";
-import Plus from "../Icons/Plus";
 import Share from "../Icons/Share";
 import Button from "./Button";
 
 interface HeaderProps {
   onBarsClick: () => void;
-  onAddContentClick: () => void;
   onShareBrainClick: () => void;
   filterContent: string;
 }
 
 const Header = ({
   onBarsClick,
-  onAddContentClick,
   onShareBrainClick,
   filterContent,
 }: HeaderProps) => (
@@ -33,13 +30,13 @@ const Header = ({
         beforeIcon={<Share />}
         onClickHandler={onShareBrainClick}
       />
-      <Button
+      {/* <Button
         type="primary"
         name="Add Content"
         size="lg"
         beforeIcon={<Plus />}
         onClickHandler={onAddContentClick}
-      />
+      /> */}
     </div>
   </div>
 );
