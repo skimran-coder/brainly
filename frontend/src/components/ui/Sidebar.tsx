@@ -74,6 +74,10 @@ const Sidebar = ({
         className={`lg:w-1/6 md:w-1/4 sm:w-1/3 min-h-screen border border-text-secondary border-opacity-20 md:flex flex-col pl-4 transition-all bg-white fixed  ${
           isSidebarOpen ? "flex fixed z-50 bg-white overflow-hidden" : "hidden"
         }`}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target !== e.currentTarget) return;
+          setIsProfileOpen(false);
+        }}
       >
         <div className="pt-4 pl-1 lg:pl-6 sm:pl-4 flex items-center justify-between gap-2 pb-8 md:pb-16">
           <AppTitle />
