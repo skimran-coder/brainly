@@ -29,7 +29,13 @@ const PopUpModal = ({
 
   return (
     <div className=" fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 overflow-y-hidden z-50">
-      <div className="flex  w-full h-full  justify-center items-center">
+      <div
+        className="flex  w-full h-full  justify-center items-center"
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target !== e.currentTarget) return;
+          closeModal();
+        }}
+      >
         <div
           className={`${
             isDeleteModal ? "w-72" : "w-96"
