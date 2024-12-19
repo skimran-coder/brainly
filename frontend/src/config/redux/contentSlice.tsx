@@ -43,9 +43,17 @@ const contentSlice = createSlice({
         card._id === action.payload._id ? action.payload : card
       );
     },
+    emptyContent: (state) => {
+      state.content = [];
+    },
   },
 });
 
-export const { setContentState, addContent, removeContent, updateContent } =
-  contentSlice.actions;
+export const {
+  setContentState,
+  addContent,
+  removeContent,
+  updateContent,
+  emptyContent,
+} = contentSlice.actions;
 export default contentSlice.reducer;

@@ -80,7 +80,7 @@ const Sidebar = ({
             }`}
             onClick={() => switchFilter(name)}
           >
-            <div>{icon}</div> <p className="">{name}</p>
+            <div>{icon}</div> <p className="text-sm">{name}</p>
           </ul>
         ))}
       </div>
@@ -91,7 +91,7 @@ const Sidebar = ({
           onClick={toggleProfile}
         >
           <Profile />
-          {username && <p>{username}</p>}
+          {username ? <p>{username}</p> : <p>Profile</p>}
         </ul>
         {isProfileOpen && (
           <ul className="absolute flex flex-col gap-2 top-8  bg-bg-main hover:bg-bg-tag shadow-md rounded-lg p-2">
