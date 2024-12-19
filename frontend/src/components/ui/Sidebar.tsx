@@ -96,7 +96,7 @@ const Sidebar = ({
         {isProfileOpen && (
           <ul className="absolute flex flex-col gap-2 top-8  bg-bg-main hover:bg-bg-tag shadow-md rounded-lg p-2">
             <li
-              className="flex gap-1"
+              className="flex gap-1 cursor-pointer"
               onClick={() => logout(navigate, dispatch)}
             >
               <Logout />
