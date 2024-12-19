@@ -79,7 +79,7 @@ const SharedBrain = () => {
         </div>
         <div
           ref={containerRef}
-          className="bg-bg-main my-4 ml-4 mr-8 gap-4 p-4 pr-8"
+          className="bg-bg-main my-4 ml-4 mr-8 gap-4 p-16 pr-8"
         >
           {data.map(({ title, link, type, _id, createdAt, tags }) => (
             <Card
