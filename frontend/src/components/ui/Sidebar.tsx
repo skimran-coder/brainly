@@ -11,6 +11,7 @@ import logout from "../../utils/logout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../config/redux/store";
 import Profile from "../Icons/Profile";
+import Home from "../Icons/Home";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -80,27 +81,38 @@ const Sidebar = ({
             }`}
             onClick={() => switchFilter(name)}
           >
-            <div>{icon}</div> <p className="text-sm">{name}</p>
+            <div>{icon}</div> <p className="text-base">{name}</p>
           </ul>
         ))}
       </div>
 
       <div className="flex flex-col gap-6 sm:pl-4 md:pl-0 lg:pl-6 relative pb-24">
         <ul
-          className="flex gap-2 items-center text-lg cursor-pointer hover:bg-bg-tag px-2 transition-all rounded-l-lg "
+          className="flex gap-2 items-center text-lg cursor-pointer hover:bg-bg-tag py-1 px-2 transition-all rounded-l-lg "
           onClick={toggleProfile}
         >
           <Profile />
-          {username ? <p>{username}</p> : <p>Profile</p>}
+          {username ? (
+            <p className="text-base"> {username}</p>
+          ) : (
+            <p className="text-base">Profile</p>
+          )}
         </ul>
         {isProfileOpen && (
-          <ul className="absolute flex flex-col gap-2 top-8  bg-bg-main hover:bg-bg-tag shadow-md rounded-lg p-2">
+          <ul className="absolute flex flex-col  top-8 ml-4  bg-bg-main shadow-md rounded-lg ">
             <li
-              className="flex gap-1 cursor-pointer"
+              className="flex items-center gap-1 cursor-pointer hover:bg-bg-tag p-2"
+              onClick={() => navigate("/")}
+            >
+              <Home />
+              <p className="text-sm">Home</p>
+            </li>
+            <li
+              className="flex items-center gap-1 cursor-pointer hover:bg-bg-tag p-2"
               onClick={() => logout(navigate, dispatch)}
             >
               <Logout />
-              <p>Logout</p>
+              <p className="text-sm">Logout</p>
             </li>
           </ul>
         )}
