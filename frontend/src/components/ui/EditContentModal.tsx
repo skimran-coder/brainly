@@ -58,7 +58,7 @@ function editContent(
     dispatch: AppDispatch
   ) {
     const result = await axios.put(
-      `http://localhost:7777/api/v1/content/${contentId}`,
+      `${import.meta.env.VITE_BACKEND_URL}/content/${contentId}`,
       {
         title: inputTitle,
         link: inputLink,
