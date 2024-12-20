@@ -38,6 +38,15 @@ async function shareUrl(title: string, link: string) {
   }
 }
 
+function createYoutubeUrl(link: string) {
+  const videoIdMatch = link.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
+  console.log(videoIdMatch);
+  if (videoIdMatch) {
+    return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+  }
+  return null; // Return null if no valid ID is found
+}
+
 export const Card = ({
   title,
   type,
@@ -80,6 +89,8 @@ export const Card = ({
   const dateCreated = convertDate(createdAt);
 
   const isUrl = validator.isURL(link);
+
+  const youtubeUrl = createYoutubeUrl(link);
 
   return (
     <div className={` p-8 bg-white  shadow-md border rounded-md`}>
@@ -135,10 +146,10 @@ export const Card = ({
         <h2 className="text-text-primary pt-4">{title}</h2>
       </div>
       <div className="pt-4">
-        {type === "YouTube" && isUrl && (
+        {type === "YouTube" && youtubeUrl && (
           <iframe
             className="w-full aspect-video rounded-md"
-            src={link.replace("watch?v=", "/embed/")}
+            src={youtubeUrl}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
